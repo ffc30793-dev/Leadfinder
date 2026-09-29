@@ -1,8 +1,3 @@
-/* =========================================================
-   LEADFINDER - SCRIPT COMPLETO
-   Compatível com o index.html atual do GitHub
-========================================================= */
-
 import {
   initializeApp
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
@@ -12,7 +7,6 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
-  signOut,
   updateProfile
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
@@ -25,9 +19,9 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-/* =========================================================
+/* =========================
    FIREBASE
-========================================================= */
+========================= */
 
 const firebaseConfig = {
   apiKey: "AIzaSyBYCtd7kjuAOPEROpkZM3eDOpnCk4xg5kM",
@@ -39,24 +33,14 @@ const firebaseConfig = {
   measurementId: "G-PB7GXC14WK"
 };
 
-const firebaseApp = initializeApp(firebaseConfig);
-const auth = getAuth(firebaseApp);
-const db = getFirestore(firebaseApp);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 
-/* =========================================================
-   LINKS DOS PLANOS
-========================================================= */
-
-const CAKTO_LINKS = {
-  PRO: "COLE_AQUI_SEU_LINK_DA_CAKTO_PRO",
-  MAX: "COLE_AQUI_SEU_LINK_DA_CAKTO_MAX"
-};
-
-
-/* =========================================================
-   SERVIÇOS
-========================================================= */
+/* =========================
+   DADOS
+========================= */
 
 const services = [
   "Sem site",
@@ -72,11 +56,6 @@ const services = [
   "Agendamento online",
   "Sistema personalizado"
 ];
-
-
-/* =========================================================
-   TIPOS
-========================================================= */
 
 const types = [
   "Hamburgueria",
@@ -111,228 +90,196 @@ const types = [
   "Outro"
 ];
 
-
-/* =========================================================
-   ESTADOS
-========================================================= */
-
 const states = [
-  ["AC", "Acre"],
-  ["AL", "Alagoas"],
-  ["AP", "Amapá"],
-  ["AM", "Amazonas"],
-  ["BA", "Bahia"],
-  ["CE", "Ceará"],
-  ["DF", "Distrito Federal"],
-  ["ES", "Espírito Santo"],
-  ["GO", "Goiás"],
-  ["MA", "Maranhão"],
-  ["MT", "Mato Grosso"],
-  ["MS", "Mato Grosso do Sul"],
-  ["MG", "Minas Gerais"],
-  ["PA", "Pará"],
-  ["PB", "Paraíba"],
-  ["PR", "Paraná"],
-  ["PE", "Pernambuco"],
-  ["PI", "Piauí"],
-  ["RJ", "Rio de Janeiro"],
-  ["RN", "Rio Grande do Norte"],
-  ["RS", "Rio Grande do Sul"],
-  ["RO", "Rondônia"],
-  ["RR", "Roraima"],
-  ["SC", "Santa Catarina"],
-  ["SP", "São Paulo"],
-  ["SE", "Sergipe"],
-  ["TO", "Tocantins"]
+  ["AC","Acre"],
+  ["AL","Alagoas"],
+  ["AP","Amapá"],
+  ["AM","Amazonas"],
+  ["BA","Bahia"],
+  ["CE","Ceará"],
+  ["DF","Distrito Federal"],
+  ["ES","Espírito Santo"],
+  ["GO","Goiás"],
+  ["MA","Maranhão"],
+  ["MT","Mato Grosso"],
+  ["MS","Mato Grosso do Sul"],
+  ["MG","Minas Gerais"],
+  ["PA","Pará"],
+  ["PB","Paraíba"],
+  ["PR","Paraná"],
+  ["PE","Pernambuco"],
+  ["PI","Piauí"],
+  ["RJ","Rio de Janeiro"],
+  ["RN","Rio Grande do Norte"],
+  ["RS","Rio Grande do Sul"],
+  ["RO","Rondônia"],
+  ["RR","Roraima"],
+  ["SC","Santa Catarina"],
+  ["SP","São Paulo"],
+  ["SE","Sergipe"],
+  ["TO","Tocantins"]
 ];
-
-
-/* =========================================================
-   LEADS DEMO
-========================================================= */
 
 const demoLeads = [
-  ["Burger House", "Hamburgueria", "11999990001"],
-  ["Pizza do Bairro", "Pizzaria", "11988880002"],
-  ["Café Brasil", "Cafeteria", "11977770003"],
-  ["Barbearia Central", "Barbearia", "11966660004"],
-  ["Studio Bella", "Salão de beleza", "11955550005"],
-  ["Oficina Turbo", "Oficina", "11944440006"],
-  ["Clínica Vida", "Clínica", "11933330007"],
-  ["Casa do Açaí", "Restaurante", "11922220008"],
-  ["Auto Center Sul", "Auto center", "11911110009"],
-  ["Ponto da Moda", "Loja de roupas", "11900000010"],
-  ["Imóveis Prime", "Imobiliária", "11999990011"],
-  ["Pet Mundo", "Pet shop", "11988880012"],
-  ["Padaria Avenida", "Padaria", "11977770013"],
-  ["Academia Fit", "Academia", "11966660014"],
-  ["Hotel Central", "Hotel", "11955550015"],
-  ["Constrular", "Construtora", "11944440016"],
-  ["Tech Mais", "Loja de eletrônicos", "11933330017"],
-  ["Eventos Prime", "Eventos", "11922220018"],
-  ["Contábil Fácil", "Contabilidade", "11911110019"],
-  ["Foto & Arte", "Fotografia", "11900000020"]
+  ["Burger House","Hamburgueria","11999990001"],
+  ["Pizza do Bairro","Pizzaria","11988880002"],
+  ["Café Brasil","Cafeteria","11977770003"],
+  ["Barbearia Central","Barbearia","11966660004"],
+  ["Studio Bella","Salão de beleza","11955550005"],
+  ["Oficina Turbo","Oficina","11944440006"],
+  ["Clínica Vida","Clínica","11933330007"],
+  ["Casa do Açaí","Restaurante","11922220008"],
+  ["Auto Center Sul","Auto center","11911110009"],
+  ["Ponto da Moda","Loja de roupas","11900000010"],
+  ["Imóveis Prime","Imobiliária","11999990011"],
+  ["Pet Mundo","Pet shop","11988880012"],
+  ["Padaria Avenida","Padaria","11977770013"],
+  ["Academia Fit","Academia","11966660014"],
+  ["Hotel Central","Hotel","11955550015"],
+  ["Constrular","Construtora","11944440016"],
+  ["Tech Mais","Loja de eletrônicos","11933330017"],
+  ["Eventos Prime","Eventos","11922220018"],
+  ["Contábil Fácil","Contabilidade","11911110019"],
+  ["Foto & Arte","Fotografia","11900000020"]
 ];
 
 
-/* =========================================================
-   PLANOS
-========================================================= */
-
-const resultLimit = {
-  FREE: 6,
-  PRO: 15,
-  MAX: 50
-};
-
-
-/* =========================================================
+/* =========================
    ESTADO
-========================================================= */
+========================= */
 
+let currentUser = null;
 let credits = 30;
 let currentPlan = "FREE";
-let currentUser = null;
 
 
-/* =========================================================
-   ELEMENTOS DO HTML
-========================================================= */
+/* =========================
+   ELEMENTOS
+========================= */
 
-const stateSelect = document.getElementById("stateSelect");
-const citySelect = document.getElementById("citySelect");
-const typeSelect = document.getElementById("typeSelect");
-const needSelect = document.getElementById("needSelect");
-const results = document.getElementById("results");
-const authModal = document.getElementById("authModal");
-const authForm = document.getElementById("authForm");
+const $ = id =>
+  document.getElementById(id);
 
 
-/* =========================================================
+/* =========================
    TOAST
-========================================================= */
+========================= */
 
 function toast(message) {
 
-  const element = document.getElementById("toast");
+  const element = $("toast");
 
   if (!element) {
-    console.log(message);
     return;
   }
 
   element.textContent = message;
+
   element.classList.add("show");
 
-  clearTimeout(window.leadfinderToast);
+  clearTimeout(window.__leadToast);
 
-  window.leadfinderToast = setTimeout(() => {
-    element.classList.remove("show");
-  }, 3500);
+  window.__leadToast =
+    setTimeout(() => {
+      element.classList.remove("show");
+    }, 3500);
 }
 
 
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
+/* =========================
+   CRÉDITOS
+========================= */
 
-function escapeHTML(value) {
+function updateCredits() {
 
-  return String(value ?? "").replace(
-    /[&<>"']/g,
-    char => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#039;"
-    }[char])
-  );
+  const element =
+    $("creditCount");
+
+  if (element) {
+    element.textContent =
+      credits;
+  }
 }
 
 
-/* =========================================================
-   SELECTS
-========================================================= */
+/* =========================
+   INICIALIZAÇÃO
+========================= */
 
-function initializeSelects() {
+function initializeLists() {
 
-  if (typeSelect) {
+  const state =
+    $("stateSelect");
 
-    types.forEach(type => {
+  const type =
+    $("typeSelect");
 
-      typeSelect.add(
-        new Option(type, type)
-      );
+  const need =
+    $("needSelect");
 
-    });
-
-  }
-
-
-  if (needSelect) {
-
-    services.forEach(service => {
-
-      needSelect.add(
-        new Option(service, service)
-      );
-
-    });
-
-  }
+  const tags =
+    $("serviceTags");
 
 
-  if (stateSelect) {
+  states.forEach(([uf,name]) => {
 
-    states.forEach(([uf, name]) => {
+    state.add(
+      new Option(name,uf)
+    );
 
-      stateSelect.add(
-        new Option(name, uf)
-      );
-
-    });
-
-  }
+  });
 
 
-  const serviceTags =
-    document.getElementById("serviceTags");
+  types.forEach(item => {
 
-  if (serviceTags) {
+    type.add(
+      new Option(item,item)
+    );
 
-    serviceTags.innerHTML =
-      services
-        .map(
-          service =>
-            `<span class="tag">${escapeHTML(service)}</span>`
-        )
-        .join("");
+  });
 
-  }
 
+  services.forEach(item => {
+
+    need.add(
+      new Option(item,item)
+    );
+
+  });
+
+
+  tags.innerHTML =
+    services
+      .map(
+        item =>
+          `<span class="tag">${item}</span>`
+      )
+      .join("");
 }
 
 
-/* =========================================================
-   CARREGAR CIDADES IBGE
-========================================================= */
+/* =========================
+   CIDADES
+========================= */
 
 async function loadCities() {
 
-  if (!stateSelect || !citySelect) {
-    return;
-  }
+  const state =
+    $("stateSelect");
 
-  citySelect.disabled = true;
+  const city =
+    $("citySelect");
 
-  citySelect.innerHTML =
+
+  city.disabled = true;
+
+  city.innerHTML =
     "<option>Carregando cidades...</option>";
 
 
-  if (!stateSelect.value) {
+  if (!state.value) {
 
-    citySelect.innerHTML =
+    city.innerHTML =
       "<option value=''>Selecione o estado primeiro</option>";
 
     return;
@@ -341,48 +288,45 @@ async function loadCities() {
 
   try {
 
-    const response = await fetch(
-      `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateSelect.value}/municipios?orderBy=nome`
-    );
+    const response =
+      await fetch(
+        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state.value}/municipios?orderBy=nome`
+      );
 
 
     if (!response.ok) {
-      throw new Error(
-        `Erro HTTP ${response.status}`
-      );
+      throw new Error("Erro IBGE");
     }
 
 
-    const cities = await response.json();
+    const data =
+      await response.json();
 
 
-    citySelect.innerHTML =
-      '<option value="">Selecione a cidade</option>';
+    city.innerHTML =
+      "<option value=''>Selecione a cidade</option>";
 
 
-    cities.forEach(city => {
+    data.forEach(item => {
 
-      citySelect.add(
+      city.add(
         new Option(
-          city.nome,
-          city.nome
+          item.nome,
+          item.nome
         )
       );
 
     });
 
 
-    citySelect.disabled = false;
+    city.disabled = false;
 
 
   } catch (error) {
 
-    console.error(
-      "Erro ao carregar cidades:",
-      error
-    );
+    console.error(error);
 
-    citySelect.innerHTML =
+    city.innerHTML =
       "<option value=''>Erro ao carregar cidades</option>";
 
     toast(
@@ -390,217 +334,105 @@ async function loadCities() {
     );
 
   }
-
 }
 
 
-/* =========================================================
+/* =========================
    MODAL
-========================================================= */
+========================= */
 
-function openAuth(mode = "login") {
+function openAuth(mode) {
 
-  if (!authModal) {
-    return;
-  }
+  const login =
+    mode === "login";
 
-  authModal.classList.add("show");
 
-  setAuthMode(mode);
+  $("authModal")
+    .classList
+    .add("show");
+
+
+  $("authEyebrow")
+    .textContent =
+      login
+        ? "LOGIN"
+        : "CRIAR CONTA";
+
+
+  $("authTitle")
+    .textContent =
+      login
+        ? "Entrar"
+        : "Criar conta";
+
+
+  $("authSub")
+    .textContent =
+      login
+        ? "Entre na sua conta LeadFinder."
+        : "Comece com 30 créditos grátis.";
+
+
+  $("phoneLabel")
+    .style.display =
+      login
+        ? "none"
+        : "block";
+
+
+  $("phone").disabled =
+    login;
+
+
+  $("phone").required =
+    !login;
+
+
+  $("authSubmitText")
+    .textContent =
+      login
+        ? "Entrar"
+        : "Criar conta";
+
+
+  $("switchAuth")
+    .textContent =
+      login
+        ? "Ainda não tenho uma conta"
+        : "Já tenho uma conta";
 }
 
 
 function closeAuth() {
 
-  if (!authModal) {
-    return;
-  }
-
-  authModal.classList.remove("show");
+  $("authModal")
+    .classList
+    .remove("show");
 }
 
 
-function setAuthMode(mode) {
+function switchAuth() {
 
-  const isLogin =
-    mode === "login";
-
-
-  const eyebrow =
-    document.getElementById("authEyebrow");
-
-  const title =
-    document.getElementById("authTitle");
-
-  const sub =
-    document.getElementById("authSub");
-
-  const phone =
-    document.getElementById("phone");
-
-  const phoneLabel =
-    document.getElementById("phoneLabel");
-
-  const switchAuth =
-    document.getElementById("switchAuth");
-
-  const submitText =
-    document.getElementById("authSubmitText");
+  const login =
+    $("authTitle").textContent ===
+    "Entrar";
 
 
-  if (eyebrow) {
-
-    eyebrow.textContent =
-      isLogin
-        ? "LOGIN"
-        : "CRIAR CONTA";
-
-  }
-
-
-  if (title) {
-
-    title.textContent =
-      isLogin
-        ? "Entrar"
-        : "Criar conta";
-
-  }
-
-
-  if (sub) {
-
-    sub.textContent =
-      isLogin
-        ? "Entre na sua conta LeadFinder."
-        : "Comece com 30 créditos grátis.";
-
-  }
-
-
-  if (phone) {
-
-    phone.style.display =
-      isLogin
-        ? "none"
-        : "block";
-
-    phone.required =
-      !isLogin;
-
-    phone.disabled =
-      isLogin;
-
-  }
-
-
-  if (phoneLabel) {
-
-    phoneLabel.style.display =
-      isLogin
-        ? "none"
-        : "block";
-
-  }
-
-
-  if (submitText) {
-
-    submitText.textContent =
-      isLogin
-        ? "Entrar"
-        : "Criar conta";
-
-  }
-
-
-  if (switchAuth) {
-
-    switchAuth.textContent =
-      isLogin
-        ? "Ainda não tenho uma conta"
-        : "Já tenho uma conta";
-
-
-    switchAuth.onclick = () => {
-
-      setAuthMode(
-        isLogin
-          ? "register"
-          : "login"
-      );
-
-    };
-
-  }
-
+  openAuth(
+    login
+      ? "register"
+      : "login"
+  );
 }
 
 
-/* =========================================================
-   LOADING DO FORMULÁRIO
-========================================================= */
-
-function setAuthLoading(loading) {
-
-  const button =
-    authForm?.querySelector(
-      'button[type="submit"]'
-    );
-
-  const text =
-    document.getElementById(
-      "authSubmitText"
-    );
-
-
-  if (!button) {
-    return;
-  }
-
-
-  button.disabled = loading;
-
-
-  if (text && !loading) {
-
-    const title =
-      document.getElementById(
-        "authTitle"
-      );
-
-    text.textContent =
-      title?.textContent.includes("Entrar")
-        ? "Entrar"
-        : "Criar conta";
-
-  }
-
-
-  if (text && loading) {
-
-    text.textContent =
-      "Aguarde...";
-
-  }
-
-}
-
-
-/* =========================================================
+/* =========================
    ERROS FIREBASE
-========================================================= */
+========================= */
 
 function firebaseError(error) {
 
-  console.error(
-    "Firebase:",
-    error
-  );
-
-
-  const code =
-    error?.code || "";
+  console.error(error);
 
 
   const messages = {
@@ -609,7 +441,7 @@ function firebaseError(error) {
       "Este e-mail já está cadastrado.",
 
     "auth/invalid-email":
-      "Digite um e-mail válido.",
+      "E-mail inválido.",
 
     "auth/weak-password":
       "A senha precisa ter pelo menos 6 caracteres.",
@@ -624,356 +456,38 @@ function firebaseError(error) {
       "Senha incorreta.",
 
     "auth/too-many-requests":
-      "Muitas tentativas. Aguarde alguns minutos.",
+      "Muitas tentativas. Aguarde.",
 
     "auth/network-request-failed":
-      "Erro de internet. Verifique sua conexão.",
+      "Erro de conexão.",
 
     "auth/operation-not-allowed":
-      "O login por e-mail ainda não está ativado no Firebase.",
+      "Ative Email/Password no Firebase.",
 
     "auth/unauthorized-domain":
       "O domínio do GitHub Pages não está autorizado no Firebase.",
 
-    "auth/app-not-authorized":
-      "Este domínio não está autorizado no Firebase.",
-
-    "auth/invalid-api-key":
-      "A chave do Firebase está inválida.",
-
     "permission-denied":
-      "O Firestore bloqueou o acesso. Verifique as regras do banco.",
+      "O Firestore bloqueou o acesso.",
 
     "failed-precondition":
-      "O Firestore ainda não está configurado.",
-
-    "unavailable":
-      "O Firebase está temporariamente indisponível."
+      "O Firestore ainda não foi configurado."
   };
 
 
   toast(
-    messages[code] ||
-    error?.message ||
+    messages[error.code] ||
+    error.message ||
     "Não foi possível realizar a operação."
   );
-
 }
 
 
-/* =========================================================
-   CRIAR CONTA / LOGIN
-========================================================= */
-
-if (authForm) {
-
-  authForm.addEventListener(
-    "submit",
-    async event => {
-
-      event.preventDefault();
-
-
-      const email =
-        document
-          .getElementById("email")
-          ?.value
-          .trim()
-          .toLowerCase();
-
-
-      const password =
-        document
-          .getElementById("password")
-          ?.value;
-
-
-      const phone =
-        document
-          .getElementById("phone")
-          ?.value
-          .trim();
-
-
-      const authTitle =
-        document.getElementById(
-          "authTitle"
-        );
-
-
-      const isLogin =
-        authTitle?.textContent
-          .trim()
-          .toLowerCase()
-          .includes("entrar");
-
-
-      if (!email) {
-
-        toast(
-          "Digite seu e-mail."
-        );
-
-        return;
-
-      }
-
-
-      if (!password || password.length < 6) {
-
-        toast(
-          "A senha precisa ter pelo menos 6 caracteres."
-        );
-
-        return;
-
-      }
-
-
-      if (!isLogin && !phone) {
-
-        toast(
-          "Digite seu número de celular."
-        );
-
-        return;
-
-      }
-
-
-      setAuthLoading(true);
-
-
-      try {
-
-        /* =========================
-           LOGIN
-        ========================= */
-
-        if (isLogin) {
-
-          const credential =
-            await signInWithEmailAndPassword(
-              auth,
-              email,
-              password
-            );
-
-
-          currentUser =
-            credential.user;
-
-
-          await loadUserData();
-
-
-          toast(
-            "Login realizado com sucesso!"
-          );
-
-
-          closeAuth();
-
-
-          return;
-
-        }
-
-
-        /* =========================
-           CRIAR CONTA
-        ========================= */
-
-        const credential =
-          await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
-
-
-        currentUser =
-          credential.user;
-
-
-        /* =========================
-           TELEFONE NO PERFIL
-        ========================= */
-
-        if (phone) {
-
-          try {
-
-            await updateProfile(
-              currentUser,
-              {
-                displayName: phone
-              }
-            );
-
-          } catch (error) {
-
-            console.warn(
-              "Perfil não atualizado:",
-              error
-            );
-
-          }
-
-        }
-
-
-        /* =========================
-           FIRESTORE
-        ========================= */
-
-        await setDoc(
-          doc(
-            db,
-            "usuarios",
-            currentUser.uid
-          ),
-          {
-            email:
-              currentUser.email,
-
-            telefone:
-              phone || "",
-
-            plano:
-              "FREE",
-
-            creditos:
-              30,
-
-            criadoEm:
-              serverTimestamp()
-          }
-        );
-
-
-        credits = 30;
-        currentPlan = "FREE";
-
-
-        updateCredits();
-
-
-        toast(
-          "Conta criada! Você recebeu 30 créditos."
-        );
-
-
-        closeAuth();
-
-
-      } catch (error) {
-
-        firebaseError(error);
-
-      } finally {
-
-        setAuthLoading(false);
-
-      }
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   CARREGAR USUÁRIO
-========================================================= */
-
-async function loadUserData() {
-
-  if (!currentUser) {
-    return;
-  }
-
-
-  try {
-
-    const userRef =
-      doc(
-        db,
-        "usuarios",
-        currentUser.uid
-      );
-
-
-    const snapshot =
-      await getDoc(userRef);
-
-
-    if (!snapshot.exists()) {
-
-      await setDoc(
-        userRef,
-        {
-          email:
-            currentUser.email,
-
-          telefone:
-            currentUser.displayName || "",
-
-          plano:
-            "FREE",
-
-          creditos:
-            30,
-
-          criadoEm:
-            serverTimestamp()
-        },
-        {
-          merge: true
-        }
-      );
-
-
-      credits = 30;
-      currentPlan = "FREE";
-
-      updateCredits();
-
-      return;
-    }
-
-
-    const data =
-      snapshot.data();
-
-
-    credits =
-      typeof data.creditos === "number"
-        ? data.creditos
-        : 30;
-
-
-    currentPlan =
-      data.plano || "FREE";
-
-
-    updateCredits();
-
-
-  } catch (error) {
-
-    firebaseError(error);
-
-  }
-
-}
-
-
-/* =========================================================
+/* =========================
    SALVAR USUÁRIO
-========================================================= */
+========================= */
 
-async function saveUserData() {
+async function saveUser() {
 
   if (!currentUser) {
     return false;
@@ -992,6 +506,9 @@ async function saveUserData() {
         email:
           currentUser.email,
 
+        telefone:
+          currentUser.displayName || "",
+
         creditos:
           credits,
 
@@ -1006,43 +523,277 @@ async function saveUserData() {
 
     return true;
 
-
   } catch (error) {
 
     firebaseError(error);
 
     return false;
-
   }
-
 }
 
 
-/* =========================================================
-   CRÉDITOS
-========================================================= */
+/* =========================
+   CARREGAR USUÁRIO
+========================= */
 
-function updateCredits() {
+async function loadUser() {
 
-  const element =
-    document.getElementById(
-      "creditCount"
-    );
-
-
-  if (element) {
-
-    element.textContent =
-      credits;
-
+  if (!currentUser) {
+    return;
   }
 
+
+  try {
+
+    const reference =
+      doc(
+        db,
+        "usuarios",
+        currentUser.uid
+      );
+
+
+    const snapshot =
+      await getDoc(reference);
+
+
+    if (!snapshot.exists()) {
+
+      credits = 30;
+
+      currentPlan =
+        "FREE";
+
+
+      await setDoc(
+        reference,
+        {
+          email:
+            currentUser.email,
+
+          telefone:
+            currentUser.displayName || "",
+
+          creditos:
+            30,
+
+          plano:
+            "FREE",
+
+          criadoEm:
+            serverTimestamp()
+        }
+      );
+
+
+    } else {
+
+      const data =
+        snapshot.data();
+
+
+      credits =
+        typeof data.creditos === "number"
+          ? data.creditos
+          : 30;
+
+
+      currentPlan =
+        data.plano || "FREE";
+
+    }
+
+
+    updateCredits();
+
+
+  } catch (error) {
+
+    firebaseError(error);
+
+  }
 }
 
 
-/* =========================================================
-   BUSCAR LEADS
-========================================================= */
+/* =========================
+   LOGIN / CADASTRO
+========================= */
+
+$("authForm")
+  .addEventListener(
+    "submit",
+    async event => {
+
+      event.preventDefault();
+
+
+      const email =
+        $("email")
+          .value
+          .trim()
+          .toLowerCase();
+
+
+      const password =
+        $("password")
+          .value;
+
+
+      const phone =
+        $("phone")
+          .value
+          .trim();
+
+
+      const login =
+        $("authTitle")
+          .textContent ===
+        "Entrar";
+
+
+      if (password.length < 6) {
+
+        toast(
+          "A senha precisa ter pelo menos 6 caracteres."
+        );
+
+        return;
+      }
+
+
+      const button =
+        $("authForm")
+          .querySelector(
+            "button[type='submit']"
+          );
+
+
+      button.disabled = true;
+
+      $("authSubmitText")
+        .textContent =
+          "Aguarde...";
+
+
+      try {
+
+        if (login) {
+
+          const result =
+            await signInWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
+
+
+          currentUser =
+            result.user;
+
+
+          await loadUser();
+
+
+          toast(
+            "Login realizado com sucesso!"
+          );
+
+
+          closeAuth();
+
+
+        } else {
+
+          if (!phone) {
+
+            toast(
+              "Digite seu número de celular."
+            );
+
+            return;
+          }
+
+
+          const result =
+            await createUserWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
+
+
+          currentUser =
+            result.user;
+
+
+          await updateProfile(
+            currentUser,
+            {
+              displayName:
+                phone
+            }
+          );
+
+
+          credits = 30;
+
+          currentPlan =
+            "FREE";
+
+
+          await setDoc(
+            doc(
+              db,
+              "usuarios",
+              currentUser.uid
+            ),
+            {
+              email,
+              telefone: phone,
+              creditos: 30,
+              plano: "FREE",
+              criadoEm:
+                serverTimestamp()
+            }
+          );
+
+
+          updateCredits();
+
+
+          toast(
+            "Conta criada! Você recebeu 30 créditos."
+          );
+
+
+          closeAuth();
+        }
+
+
+      } catch (error) {
+
+        firebaseError(error);
+
+
+      } finally {
+
+        button.disabled = false;
+
+
+        $("authSubmitText")
+          .textContent =
+            login
+              ? "Entrar"
+              : "Criar conta";
+      }
+
+    }
+  );
+
+
+/* =========================
+   BUSCA
+========================= */
 
 async function searchLeads() {
 
@@ -1052,38 +803,52 @@ async function searchLeads() {
       "Faça login para realizar buscas."
     );
 
-
     openAuth("login");
 
-
     return;
-
   }
 
 
   if (credits < 6) {
 
-    showPlans();
+    $("planos")
+      .scrollIntoView({
+        behavior: "smooth"
+      });
+
+    toast(
+      "Seus créditos acabaram."
+    );
 
     return;
-
   }
 
 
+  const state =
+    $("stateSelect").value;
+
+  const city =
+    $("citySelect").value;
+
+  const type =
+    $("typeSelect").value;
+
+  const need =
+    $("needSelect").value;
+
+
   if (
-    !stateSelect?.value ||
-    !citySelect?.value ||
-    !typeSelect?.value ||
-    !needSelect?.value
+    !state ||
+    !city ||
+    !type ||
+    !need
   ) {
 
     toast(
       "Preencha todos os campos."
     );
 
-
     return;
-
   }
 
 
@@ -1093,137 +858,408 @@ async function searchLeads() {
 
   credits -= 6;
 
-
   updateCredits();
 
 
-  const saved =
-    await saveUserData();
-
-
-  if (!saved) {
+  if (!(await saveUser())) {
 
     credits =
       oldCredits;
 
-
     updateCredits();
 
-
     return;
+  }
+
+
+  let limit = 6;
+
+  if (currentPlan === "PRO") {
+    limit = 15;
+  }
+
+  if (currentPlan === "MAX") {
+    limit = 50;
+  }
+
+
+  renderResults(
+    demoLeads.slice(0,limit),
+    city,
+    state
+  );
+}
+
+
+/* =========================
+   RESULTADOS
+========================= */
+
+function renderResults(
+  leads,
+  city,
+  state
+) {
+
+  $("resultsTitle")
+    .textContent =
+      `Leads em ${city}`;
+
+
+  $("resultCount")
+    .textContent =
+      `${leads.length} leads`;
+
+
+  $("results")
+    .innerHTML =
+      leads
+        .map(
+          (lead,index) => {
+
+            return `
+              <article class="result-card">
+
+                <div>
+
+                  <h4>
+                    ${lead[0]}
+                  </h4>
+
+                  <div class="result-meta">
+
+                    ${lead[1]}
+                    •
+                    ${city} -
+                    ${state}
+
+                    <br>
+
+                    ${lead[2]}
+
+                  </div>
+
+                  <div class="badges">
+
+                    <span class="badge green">
+                      Oportunidade
+                    </span>
+
+                    <span class="badge">
+                      Possível ausência de site
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <div class="actions">
+
+                  <button
+                    class="icon-btn copy-btn"
+                    data-index="${index}"
+                  >
+                    📋 Copiar
+                  </button>
+
+                  <button
+                    class="icon-btn whatsapp whatsapp-btn"
+                    data-index="${index}"
+                  >
+                    WhatsApp
+                  </button>
+
+                </div>
+
+              </article>
+            `;
+          }
+        )
+        .join("");
+
+
+  document
+    .querySelectorAll(".copy-btn")
+    .forEach(button => {
+
+      button.onclick =
+        () => {
+
+          const lead =
+            leads[
+              Number(
+                button.dataset.index
+              )
+            ];
+
+
+          copyMessage(
+            createMessage(
+              lead[0]
+            )
+          );
+        };
+
+    });
+
+
+  document
+    .querySelectorAll(".whatsapp-btn")
+    .forEach(button => {
+
+      button.onclick =
+        () => {
+
+          const lead =
+            leads[
+              Number(
+                button.dataset.index
+              )
+            ];
+
+
+          openWhatsApp(
+            lead[2],
+            createMessage(
+              lead[0]
+            )
+          );
+        };
+
+    });
+}
+
+
+/* =========================
+   ABORDAGEM
+========================= */
+
+function createMessage(name) {
+
+  if (currentPlan === "MAX") {
+
+    return `Olá! Tudo bem? Conheci a ${name} e percebi uma oportunidade de melhorar a presença digital do negócio. Trabalho com criação de sites profissionais e posso preparar uma ideia personalizada para vocês. Posso te mostrar um exemplo sem compromisso?`;
 
   }
 
 
-  const limit =
-    resultLimit[currentPlan] || 6;
+  if (currentPlan === "PRO") {
+
+    return `Olá! Tudo bem? Conheci a ${name} e trabalho com criação de sites profissionais para empresas. Posso te mostrar uma ideia de site para o negócio, sem compromisso?`;
+
+  }
 
 
-  const leads =
-    demoLeads.slice(
-      0,
-      limit
+  return `Olá! Tudo bem? Trabalho com criação de sites para empresas e gostaria de mostrar uma ideia para a ${name}. Posso te enviar um exemplo?`;
+}
+
+
+/* =========================
+   COPIAR
+========================= */
+
+async function copyMessage(message) {
+
+  try {
+
+    await navigator.clipboard.writeText(
+      message
     );
 
+    toast(
+      "Mensagem copiada!"
+    );
 
-  renderResults(
-    leads,
-    {
-      state:
-        stateSelect.value,
+  } catch {
 
-      city:
-        citySelect.value,
+    toast(
+      "Não foi possível copiar."
+    );
+  }
+}
 
-      type:
-        typeSelect.value,
 
-      need:
-        needSelect.value
+/* =========================
+   WHATSAPP
+========================= */
+
+function openWhatsApp(
+  phone,
+  message
+) {
+
+  const number =
+    String(phone)
+      .replace(/\D/g,"");
+
+
+  if (!number) {
+
+    toast(
+      "Número não disponível."
+    );
+
+    return;
+  }
+
+
+  const url =
+    `https://wa.me/55${number}?text=${encodeURIComponent(message)}`;
+
+
+  window.open(
+    url,
+    "_blank"
+  );
+}
+
+
+/* =========================
+   BOTÕES
+========================= */
+
+$("loginBtn")
+  .onclick =
+    () => openAuth("login");
+
+
+$("registerBtn")
+  .onclick =
+    () => openAuth("register");
+
+
+$("startBtn")
+  .onclick =
+    () =>
+      $("ferramenta")
+        .scrollIntoView({
+          behavior: "smooth"
+        });
+
+
+$("howBtn")
+  .onclick =
+    () =>
+      $("como-funciona")
+        .scrollIntoView({
+          behavior: "smooth"
+        });
+
+
+$("freeBtn")
+  .onclick =
+    () => openAuth("register");
+
+
+$("proBtn")
+  .onclick =
+    () =>
+      toast(
+        "O link de pagamento do PRO ainda não foi configurado."
+      );
+
+
+$("maxBtn")
+  .onclick =
+    () =>
+      toast(
+        "O link de pagamento do MAX ainda não foi configurado."
+      );
+
+
+$("closeAuth")
+  .onclick =
+    closeAuth;
+
+
+$("switchAuth")
+  .onclick =
+    switchAuth;
+
+
+$("searchBtn")
+  .onclick =
+    searchLeads;
+
+
+$("stateSelect")
+  .onchange =
+    loadCities;
+
+
+/* =========================
+   FECHAR MODAL
+========================= */
+
+$("authModal")
+  .onclick =
+    event => {
+
+      if (
+        event.target ===
+        $("authModal")
+      ) {
+
+        closeAuth();
+      }
+    };
+
+
+document
+  .addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key ===
+        "Escape"
+      ) {
+
+        closeAuth();
+      }
+
     }
   );
 
 
-  if (credits < 6) {
+/* =========================
+   FIREBASE AUTH
+========================= */
 
-    setTimeout(
-      showPlans,
-      500
-    );
+onAuthStateChanged(
+  auth,
+  async user => {
 
-  }
-
-}
-
-
-/* =========================================================
-   RESULTADOS
-========================================================= */
-
-function renderResults(
-  leads,
-  filters
-) {
-
-  const resultCount =
-    document.getElementById(
-      "resultCount"
-    );
+    currentUser =
+      user;
 
 
-  const resultsTitle =
-    document.getElementById(
-      "resultsTitle"
-    );
+    if (user) {
 
+      await loadUser();
 
-  if (resultCount) {
+    } else {
 
-    resultCount.textContent =
-      `${leads.length} leads`;
+      credits = 30;
+
+      currentPlan =
+        "FREE";
+
+      updateCredits();
+    }
 
   }
+);
 
 
-  if (resultsTitle) {
+/* =========================
+   START
+========================= */
 
-    resultsTitle.textContent =
-      `Leads em ${filters.city}`;
+initializeLists();
 
-  }
+updateCredits();
 
-
-  if (!results) {
-    return;
-  }
-
-
-  results.innerHTML =
-    leads
-      .map(lead => {
-
-        const name =
-          lead[0];
-
-        const type =
-          lead[1];
-
-        const phone =
-          lead[2];
-
-
-        const message =
-          createApproach(
-            name,
-            filters
-          );
-
-
-        return `
-
-          <article class="result-card">
-
-            <div>
-
-              <h4>
-                            
+console.log(
+  "LeadFinder iniciado corretamente."
+);      
