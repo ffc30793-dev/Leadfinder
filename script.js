@@ -1,101 +1,172 @@
-const CAKTO_LINKS = {
-PRO: "COLE_AQUI_SEU_LINK_DA_CAKTO_PRO",
-MAX: "COLE_AQUI_SEU_LINK_DA_CAKTO_MAX"
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  updateProfile
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+/* =========================
+   FIREBASE
+========================= */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBYCtd7kjuAOPEROpkZM3eDOpCk4xg5kM",
+  authDomain: "leadfinder-da5c6.firebaseapp.com",
+  projectId: "leadfinder-da5c6",
+  storageBucket: "leadfinder-da5c6.firebasestorage.app",
+  messagingSenderId: "135285316125",
+  appId: "1:135285316125:web:228528bb9f6c50e5b104f4",
+  measurementId: "G-PB7GXC14WK"
 };
 
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+
+/* =========================
+   CONFIGURAÇÃO
+========================= */
+
 const services = [
-"Sem site",
-"Site desatualizado",
-"Landing page",
-"Loja virtual",
-"Cardápio digital",
-"Google/Maps",
-"Identidade visual",
-"Design",
-"Redes sociais",
-"Automação",
-"Agendamento online",
-"Sistema personalizado"
+  "Sem site",
+  "Site desatualizado",
+  "Landing page",
+  "Loja virtual",
+  "Cardápio digital",
+  "Google/Maps",
+  "Identidade visual",
+  "Design",
+  "Redes sociais",
+  "Automação",
+  "Agendamento online",
+  "Sistema personalizado"
 ];
 
 const types = [
-"Hamburgueria",
-"Pizzaria",
-"Restaurante",
-"Cafeteria",
-"Bar",
-"Padaria",
-"Salão de beleza",
-"Barbearia",
-"Clínica",
-"Dentista",
-"Academia",
-"Hotel",
-"Pousada",
-"Pet shop",
-"Oficina",
-"Auto center",
-"Loja de roupas",
-"Loja de eletrônicos",
-"Mercado",
-"Imobiliária",
-"Escritório",
-"Contabilidade",
-"Advocacia",
-"Escola",
-"Curso",
-"Fotografia",
-"Eventos",
-"Construtora",
-"Prestador de serviços",
-"Outro"
+  "Hamburgueria",
+  "Pizzaria",
+  "Restaurante",
+  "Cafeteria",
+  "Bar",
+  "Padaria",
+  "Salão de beleza",
+  "Barbearia",
+  "Clínica",
+  "Dentista",
+  "Academia",
+  "Hotel",
+  "Pousada",
+  "Pet shop",
+  "Oficina",
+  "Auto center",
+  "Loja de roupas",
+  "Loja de eletrônicos",
+  "Mercado",
+  "Imobiliária",
+  "Escritório",
+  "Contabilidade",
+  "Advocacia",
+  "Escola",
+  "Curso",
+  "Fotografia",
+  "Eventos",
+  "Construtora",
+  "Prestador de serviços",
+  "Outro"
 ];
 
 const states = [
-["AC","Acre"], ["AL","Alagoas"], ["AP","Amapá"],
-["AM","Amazonas"], ["BA","Bahia"], ["CE","Ceará"],
-["DF","Distrito Federal"], ["ES","Espírito Santo"],
-["GO","Goiás"], ["MA","Maranhão"], ["MT","Mato Grosso"],
-["MS","Mato Grosso do Sul"], ["MG","Minas Gerais"],
-["PA","Pará"], ["PB","Paraíba"], ["PR","Paraná"],
-["PE","Pernambuco"], ["PI","Piauí"], ["RJ","Rio de Janeiro"],
-["RN","Rio Grande do Norte"], ["RS","Rio Grande do Sul"],
-["RO","Rondônia"], ["RR","Roraima"], ["SC","Santa Catarina"],
-["SP","São Paulo"], ["SE","Sergipe"], ["TO","Tocantins"]
+  ["AC","Acre"],
+  ["AL","Alagoas"],
+  ["AP","Amapá"],
+  ["AM","Amazonas"],
+  ["BA","Bahia"],
+  ["CE","Ceará"],
+  ["DF","Distrito Federal"],
+  ["ES","Espírito Santo"],
+  ["GO","Goiás"],
+  ["MA","Maranhão"],
+  ["MT","Mato Grosso"],
+  ["MS","Mato Grosso do Sul"],
+  ["MG","Minas Gerais"],
+  ["PA","Pará"],
+  ["PB","Paraíba"],
+  ["PR","Paraná"],
+  ["PE","Pernambuco"],
+  ["PI","Piauí"],
+  ["RJ","Rio de Janeiro"],
+  ["RN","Rio Grande do Norte"],
+  ["RS","Rio Grande do Sul"],
+  ["RO","Rondônia"],
+  ["RR","Roraima"],
+  ["SC","Santa Catarina"],
+  ["SP","São Paulo"],
+  ["SE","Sergipe"],
+  ["TO","Tocantins"]
 ];
 
 const demoLeads = [
-["Burger House","Hamburgueria","11999990001"],
-["Pizza do Bairro","Pizzaria","11988880002"],
-["Café Brasil","Cafeteria","11977770003"],
-["Barbearia Central","Barbearia","11966660004"],
-["Studio Bella","Salão de beleza","11955550005"],
-["Oficina Turbo","Oficina","11944440006"],
-["Clínica Vida","Clínica","11933330007"],
-["Casa do Açaí","Restaurante","11922220008"],
-["Auto Center Sul","Auto center","11911110009"],
-["Ponto da Moda","Loja de roupas","11900000010"],
-["Imóveis Prime","Imobiliária","11999990011"],
-["Pet Mundo","Pet shop","11988880012"],
-["Padaria Avenida","Padaria","11977770013"],
-["Academia Fit","Academia","11966660014"],
-["Hotel Central","Hotel","11955550015"],
-["Constrular","Construtora","11944440016"],
-["Tech Mais","Loja de eletrônicos","11933330017"],
-["Eventos Prime","Eventos","11922220018"],
-["Contábil Fácil","Contabilidade","11911110019"],
-["Foto & Arte","Fotografia","11900000020"]
+  ["Burger House","Hamburgueria","11999990001"],
+  ["Pizza do Bairro","Pizzaria","11988880002"],
+  ["Café Brasil","Cafeteria","11977770003"],
+  ["Barbearia Central","Barbearia","11966660004"],
+  ["Studio Bella","Salão de beleza","11955550005"],
+  ["Oficina Turbo","Oficina","11944440006"],
+  ["Clínica Vida","Clínica","11933330007"],
+  ["Casa do Açaí","Restaurante","11922220008"],
+  ["Auto Center Sul","Auto center","11911110009"],
+  ["Ponto da Moda","Loja de roupas","11900000010"],
+  ["Imóveis Prime","Imobiliária","11999990011"],
+  ["Pet Mundo","Pet shop","11988880012"],
+  ["Padaria Avenida","Padaria","11977770013"],
+  ["Academia Fit","Academia","11966660014"],
+  ["Hotel Central","Hotel","11955550015"],
+  ["Constrular","Construtora","11944440016"],
+  ["Tech Mais","Loja de eletrônicos","11933330017"],
+  ["Eventos Prime","Eventos","11922220018"],
+  ["Contábil Fácil","Contabilidade","11911110019"],
+  ["Foto & Arte","Fotografia","11900000020"]
 ];
 
 const resultLimit = {
-FREE: 6,
-PRO: 15,
-MAX: 50
+  FREE: 6,
+  PRO: 15,
+  MAX: 20
 };
+
+
+/* =========================
+   ESTADO
+========================= */
 
 let credits = 30;
 let currentPlan = "FREE";
 let currentUser = null;
+let authMode = "register";
+
+
+/* =========================
+   ELEMENTOS
+========================= */
 
 const stateSelect = document.getElementById("stateSelect");
 const citySelect = document.getElementById("citySelect");
@@ -103,169 +174,198 @@ const typeSelect = document.getElementById("typeSelect");
 const needSelect = document.getElementById("needSelect");
 const results = document.getElementById("results");
 
+const authModal = document.getElementById("authModal");
+const authForm = document.getElementById("authForm");
+
+const emailInput = document.getElementById("email");
+const phoneInput = document.getElementById("phone");
+const passwordInput = document.getElementById("password");
+
+const authTitle = document.getElementById("authTitle");
+const authEyebrow = document.getElementById("authEyebrow");
+const authSub = document.getElementById("authSub");
+const authSubmitText = document.getElementById("authSubmitText");
+const switchAuth = document.getElementById("switchAuth");
+const phoneLabel = document.getElementById("phoneLabel");
+
+
+/* =========================
+   SELECTS
+========================= */
+
 types.forEach(type => {
-typeSelect.add(new Option(type, type));
+  typeSelect.add(
+    new Option(type, type)
+  );
 });
 
 services.forEach(service => {
-needSelect.add(new Option(service, service));
+  needSelect.add(
+    new Option(service, service)
+  );
 });
 
 states.forEach(([uf, name]) => {
-stateSelect.add(new Option(name, uf));
+  stateSelect.add(
+    new Option(name, uf)
+  );
 });
 
 document.getElementById("serviceTags").innerHTML =
-services
-.map(service => "<span class="tag">${escapeHTML(service)}</span>")
-.join("");
+  services
+    .map(
+      service =>
+        `<span class="tag">${escapeHTML(service)}</span>`
+    )
+    .join("");
 
-stateSelect.addEventListener("change", loadCities);
-
-document
-.getElementById("searchBtn")
-.addEventListener("click", searchLeads);
 
 /* =========================
-CIDADES
+   CIDADES
 ========================= */
+
+stateSelect.addEventListener(
+  "change",
+  loadCities
+);
 
 async function loadCities() {
 
-citySelect.disabled = true;
+  citySelect.disabled = true;
 
-citySelect.innerHTML =
-"<option>Carregando cidades...</option>";
+  citySelect.innerHTML =
+    `<option value="">Carregando cidades...</option>`;
 
-if (!stateSelect.value) {
+  if (!stateSelect.value) {
 
-citySelect.innerHTML =
-  "<option>Selecione o estado primeiro</option>";
-
-return;
-
-}
-
-try {
-
-const response = await fetch(
-  `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateSelect.value}/municipios?orderBy=nome`
-);
-
-if (!response.ok) {
-  throw new Error("Erro na API do IBGE");
-}
-
-const cities = await response.json();
-
-citySelect.innerHTML =
-  '<option value="">Selecione a cidade</option>';
-
-cities.forEach(city => {
-
-  citySelect.add(
-    new Option(city.nome, city.nome)
-  );
-
-});
-
-citySelect.disabled = false;
-
-} catch (error) {
-
-console.error("Erro ao carregar cidades:", error);
-
-citySelect.innerHTML =
-  "<option>Erro ao carregar cidades</option>";
-
-toast(
-  "Não foi possível carregar as cidades."
-);
-
-}
-}
-
-/* =========================
-FIREBASE
-========================= */
-
-async function authFunctions() {
-
-return await import(
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js"
-);
-}
-
-async function firestoreFunctions() {
-
-return await import(
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js"
-);
-}
-
-/* =========================
-AUTENTICAÇÃO
-========================= */
-
-document
-.getElementById("authForm")
-.addEventListener("submit", async event => {
-
-event.preventDefault();
-
-const email =
-  document
-    .getElementById("email")
-    .value
-    .trim();
-
-const password =
-  document
-    .getElementById("password")
-    .value;
-
-const phone =
-  document
-    .getElementById("phone")
-    .value
-    .trim();
-
-const isLogin =
-  document
-    .getElementById("authTitle")
-    .textContent
-    .includes("Entrar");
-
-const submitButton =
-  event.submitter ||
-  document.querySelector(
-    "#authForm button[type='submit']"
-  );
-
-try {
-
-  if (!window.firebaseAuth) {
-
-    throw new Error(
-      "Firebase Authentication não foi inicializado."
-    );
-  }
-
-  if (!window.firebaseDb) {
-
-    throw new Error(
-      "Firebase Firestore não foi inicializado."
-    );
-  }
-
-  if (!email) {
-
-    toast("Digite seu e-mail.");
+    citySelect.innerHTML =
+      `<option value="">Selecione o estado primeiro</option>`;
 
     return;
   }
 
-  if (password.length < 6) {
+  try {
+
+    const response = await fetch(
+      `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateSelect.value}/municipios?orderBy=nome`
+    );
+
+    if (!response.ok) {
+      throw new Error("Erro na API do IBGE");
+    }
+
+    const cities = await response.json();
+
+    citySelect.innerHTML =
+      `<option value="">Selecione a cidade</option>`;
+
+    cities.forEach(city => {
+
+      citySelect.add(
+        new Option(
+          city.nome,
+          city.nome
+        )
+      );
+
+    });
+
+    citySelect.disabled = false;
+
+  } catch (error) {
+
+    console.error(error);
+
+    citySelect.innerHTML =
+      `<option value="">Erro ao carregar cidades</option>`;
+
+    toast(
+      "Não foi possível carregar as cidades."
+    );
+  }
+}
+
+
+/* =========================
+   AUTENTICAÇÃO
+========================= */
+
+document
+  .getElementById("loginBtn")
+  .addEventListener(
+    "click",
+    () => openAuth("login")
+  );
+
+document
+  .getElementById("registerBtn")
+  .addEventListener(
+    "click",
+    () => openAuth("register")
+  );
+
+document
+  .getElementById("freeBtn")
+  .addEventListener(
+    "click",
+    () => openAuth("register")
+  );
+
+document
+  .getElementById("closeAuth")
+  .addEventListener(
+    "click",
+    closeAuth
+  );
+
+switchAuth.addEventListener(
+  "click",
+  () => {
+
+    setAuthMode(
+      authMode === "login"
+        ? "register"
+        : "login"
+    );
+
+  }
+);
+
+
+authForm.addEventListener(
+  "submit",
+  handleAuth
+);
+
+
+async function handleAuth(event) {
+
+  event.preventDefault();
+
+  const email =
+    emailInput.value.trim();
+
+  const password =
+    passwordInput.value;
+
+  const phone =
+    phoneInput.value.trim();
+
+
+  if (!email || !password) {
+
+    toast(
+      "Preencha e-mail e senha."
+    );
+
+    return;
+  }
+
+
+  if (
+    authMode === "register" &&
+    password.length < 6
+  ) {
 
     toast(
       "A senha precisa ter pelo menos 6 caracteres."
@@ -274,59 +374,46 @@ try {
     return;
   }
 
-  if (submitButton) {
 
-    submitButton.disabled = true;
-    submitButton.textContent =
-      isLogin
-        ? "Entrando..."
-        : "Criando conta...";
-  }
+  setAuthLoading(true);
 
 
-  const {
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
-    updateProfile
-  } = await authFunctions();
+  try {
 
+    if (authMode === "login") {
 
-  if (isLogin) {
+      const credential =
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
 
-    const credential =
-      await signInWithEmailAndPassword(
-        window.firebaseAuth,
-        email,
-        password
+      currentUser =
+        credential.user;
+
+      await loadUserData();
+
+      toast(
+        "Login realizado com sucesso!"
       );
 
-    currentUser =
-      credential.user;
+      closeAuth();
 
-    await loadUserData();
+    } else {
 
-    toast(
-      "Login realizado com sucesso!"
-    );
+      const credential =
+        await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
 
-    closeAuth();
-
-  } else {
-
-    const credential =
-      await createUserWithEmailAndPassword(
-        window.firebaseAuth,
-        email,
-        password
-      );
-
-    currentUser =
-      credential.user;
+      currentUser =
+        credential.user;
 
 
-    if (phone) {
-
-      try {
+      if (phone) {
 
         await updateProfile(
           currentUser,
@@ -334,133 +421,69 @@ try {
             displayName: phone
           }
         );
-
-      } catch (profileError) {
-
-        console.warn(
-          "Não foi possível salvar o telefone no perfil:",
-          profileError
-        );
       }
-    }
 
-
-    /*
-     * A conta do Authentication já foi criada
-     * neste ponto.
-     *
-     * Agora tentamos criar o documento
-     * do usuário no Firestore.
-     */
-
-    try {
-
-      const {
-        doc,
-        setDoc,
-        serverTimestamp
-      } = await firestoreFunctions();
 
       await setDoc(
         doc(
-          window.firebaseDb,
+          db,
           "usuarios",
           currentUser.uid
         ),
         {
-          email:
-            currentUser.email,
+          email: currentUser.email,
 
-          telefone:
-            phone,
+          telefone: phone,
 
-          plano:
-            "FREE",
+          plano: "FREE",
 
-          creditos:
-            30,
+          creditos: 30,
 
-          criadoEm:
-            serverTimestamp()
+          criadoEm: serverTimestamp()
         }
       );
 
-    } catch (firestoreError) {
-
-      console.error(
-        "ERRO FIRESTORE:",
-        firestoreError
-      );
-
-      /*
-       * A conta já foi criada no Authentication.
-       * Portanto não mostramos "falha no cadastro".
-       */
-
-      if (
-        firestoreError.code ===
-        "permission-denied"
-      ) {
-
-        toast(
-          "Conta criada, mas o Firestore bloqueou o salvamento dos dados. Ajuste as regras do Firestore."
-        );
-
-      } else {
-
-        toast(
-          "Conta criada, mas houve um erro ao salvar seus dados."
-        );
-      }
 
       credits = 30;
       currentPlan = "FREE";
 
+
       updateCredits();
 
-      closeAuth();
 
-      return;
+      toast(
+        "Conta criada com sucesso! Você recebeu 30 créditos."
+      );
+
+
+      closeAuth();
     }
 
+  } catch (error) {
 
-    credits = 30;
-    currentPlan = "FREE";
-
-    updateCredits();
-
-    toast(
-      "Conta criada! Você recebeu 30 créditos."
+    console.error(
+      "ERRO FIREBASE:",
+      error
     );
 
-    closeAuth();
+    handleFirebaseError(error);
+
+  } finally {
+
+    setAuthLoading(false);
+
   }
+}
 
-} catch (error) {
 
-  console.error(
-    "========== ERRO FIREBASE =========="
-  );
+/* =========================
+   ERROS FIREBASE
+========================= */
 
-  console.error(
-    "Código:",
-    error.code
-  );
+function handleFirebaseError(error) {
 
-  console.error(
-    "Mensagem:",
-    error.message
-  );
-
-  console.error(
-    "Erro completo:",
-    error
-  );
-
-  console.error(
-    "==================================="
-  );
-
+  const code =
+    error?.code || "";
 
   const messages = {
 
@@ -485,236 +508,175 @@ try {
     "auth/operation-not-allowed":
       "O login por e-mail e senha não está ativado no Firebase.",
 
-    "auth/unauthorized-domain":
-      "Este domínio ainda não está autorizado no Firebase.",
-
     "auth/network-request-failed":
-      "Falha de conexão com o Firebase.",
+      "Erro de conexão. Verifique sua internet.",
 
-    "auth/too-many-requests":
-      "Muitas tentativas. Aguarde um pouco e tente novamente.",
-
-    "auth/internal-error":
-      "O Firebase encontrou um erro interno.",
-
-    "auth/api-key-not-valid":
-      "A chave do Firebase não é válida.",
-
-    "auth/app-not-authorized":
-      "Este aplicativo não está autorizado no Firebase.",
-
-    "auth/configuration-not-found":
-      "A configuração do Firebase Authentication não foi encontrada."
+    "permission-denied":
+      "O Firebase bloqueou o acesso ao banco. Verifique as regras do Firestore."
   };
 
 
-  let message =
-    messages[error.code];
-
-
-  if (!message) {
-
-    message =
-      error.message ||
-      "Erro desconhecido do Firebase.";
-  }
-
-
-  toast(message);
-
-
-} finally {
-
-  if (submitButton) {
-
-    submitButton.disabled = false;
-
-    submitButton.textContent =
-      isLogin
-        ? "Entrar"
-        : "Criar conta";
-  }
+  toast(
+    messages[code] ||
+    `Erro: ${code || "Não foi possível realizar a operação."}`
+  );
 }
 
-});
 
 /* =========================
-CARREGAR USUÁRIO
+   LOADING
+========================= */
+
+function setAuthLoading(loading) {
+
+  const button =
+    authForm.querySelector(
+      "button[type='submit']"
+    );
+
+  if (!button) return;
+
+  button.disabled =
+    loading;
+
+  authSubmitText.textContent =
+    loading
+      ? "Processando..."
+      : authMode === "login"
+        ? "Entrar"
+        : "Criar conta";
+}
+
+
+/* =========================
+   CARREGAR USUÁRIO
 ========================= */
 
 async function loadUserData() {
 
-if (!currentUser) return;
+  if (!currentUser) return;
 
-try {
+  try {
 
-const {
-  doc,
-  getDoc
-} = await firestoreFunctions();
+    const userRef =
+      doc(
+        db,
+        "usuarios",
+        currentUser.uid
+      );
 
-const snapshot =
-  await getDoc(
-    doc(
-      window.firebaseDb,
-      "usuarios",
-      currentUser.uid
-    )
-  );
+    const snapshot =
+      await getDoc(userRef);
 
 
-if (!snapshot.exists()) {
+    if (!snapshot.exists()) {
 
-  /*
-   * Se o usuário existe no Auth,
-   * mas ainda não possui documento,
-   * criamos um perfil padrão.
-   */
+      await setDoc(
+        userRef,
+        {
+          email: currentUser.email,
 
-  const {
-    setDoc,
-    serverTimestamp
-  } = await firestoreFunctions();
+          plano: "FREE",
 
-  await setDoc(
-    doc(
-      window.firebaseDb,
-      "usuarios",
-      currentUser.uid
-    ),
-    {
-      email:
-        currentUser.email,
+          creditos: 30,
 
-      telefone:
-        currentUser.displayName || "",
+          criadoEm: serverTimestamp()
+        },
+        {
+          merge: true
+        }
+      );
 
-      plano:
-        "FREE",
+      credits = 30;
+      currentPlan = "FREE";
 
-      creditos:
-        30,
+      updateCredits();
 
-      criadoEm:
-        serverTimestamp()
+      return;
     }
-  );
 
-  credits = 30;
-  currentPlan = "FREE";
 
-  updateCredits();
+    const data =
+      snapshot.data();
 
-  return;
+
+    credits =
+      Number.isFinite(
+        data.creditos
+      )
+        ? data.creditos
+        : 30;
+
+
+    currentPlan =
+      data.plano || "FREE";
+
+
+    updateCredits();
+
+  } catch (error) {
+
+    console.error(
+      "Erro ao carregar usuário:",
+      error
+    );
+
+    toast(
+      "Não foi possível carregar seus dados."
+    );
+  }
 }
 
-
-const data =
-  snapshot.data();
-
-
-credits =
-  typeof data.creditos === "number"
-    ? data.creditos
-    : 30;
-
-
-currentPlan =
-  data.plano || "FREE";
-
-
-updateCredits();
-
-} catch (error) {
-
-console.error(
-  "Erro ao carregar usuário:",
-  error
-);
-
-/*
- * Mesmo que o Firestore esteja temporariamente
- * indisponível, mantemos a sessão do Auth.
- */
-
-credits = 30;
-currentPlan = "FREE";
-
-updateCredits();
-
-}
-}
 
 /* =========================
-SALVAR CRÉDITOS
+   SALVAR DADOS
 ========================= */
 
 async function saveUserData() {
 
-if (!currentUser) return;
+  if (!currentUser) return false;
 
-try {
+  try {
 
-const {
-  doc,
-  updateDoc
-} = await firestoreFunctions();
+    await updateDoc(
+      doc(
+        db,
+        "usuarios",
+        currentUser.uid
+      ),
+      {
+        creditos: credits,
+        plano: currentPlan
+      }
+    );
 
-await updateDoc(
-  doc(
-    window.firebaseDb,
-    "usuarios",
-    currentUser.uid
-  ),
-  {
-    creditos:
-      credits,
+    return true;
 
-    plano:
-      currentPlan
+  } catch (error) {
+
+    console.error(
+      "Erro ao salvar:",
+      error
+    );
+
+    toast(
+      "Não foi possível salvar seus créditos."
+    );
+
+    return false;
   }
-);
-
-} catch (error) {
-
-console.error(
-  "Erro ao salvar créditos:",
-  error
-);
-
-if (
-  error.code ===
-  "permission-denied"
-) {
-
-  toast(
-    "O Firestore bloqueou a atualização dos créditos."
-  );
 }
 
-}
-}
 
 /* =========================
-ESTADO DO LOGIN
+   LOGIN AUTOMÁTICO
 ========================= */
 
-async function initializeAuth() {
-
-try {
-
-const {
-  onAuthStateChanged
-} = await authFunctions();
-
-
 onAuthStateChanged(
-  window.firebaseAuth,
+  auth,
   async user => {
 
-    currentUser =
-      user;
-
+    currentUser = user;
 
     if (user) {
 
@@ -736,528 +698,538 @@ onAuthStateChanged(
   }
 );
 
-} catch (error) {
-
-console.error(
-  "Erro no Firebase:",
-  error
-);
-
-toast(
-  "Não foi possível iniciar o Firebase."
-);
-
-}
-}
 
 /* =========================
-CRÉDITOS
+   CRÉDITOS
 ========================= */
 
 function updateCredits() {
 
-const element =
-document.getElementById(
-"creditCount"
-);
+  const element =
+    document.getElementById(
+      "creditCount"
+    );
 
-if (element) {
+  if (element) {
 
-element.textContent =
-  credits;
-
+    element.textContent =
+      credits;
+  }
 }
-}
+
 
 /* =========================
-BUSCAR LEADS
+   BUSCAR LEADS
 ========================= */
+
+document
+  .getElementById("searchBtn")
+  .addEventListener(
+    "click",
+    searchLeads
+  );
+
 
 async function searchLeads() {
 
-if (!currentUser) {
+  if (!currentUser) {
 
-toast(
-  "Faça login para realizar buscas."
-);
+    toast(
+      "Faça login para realizar buscas."
+    );
 
-openAuth("login");
+    openAuth("login");
 
-return;
+    return;
+  }
 
+
+  if (credits < 6) {
+
+    showPlans();
+
+    return;
+  }
+
+
+  if (
+    !stateSelect.value ||
+    !citySelect.value ||
+    !typeSelect.value ||
+    !needSelect.value
+  ) {
+
+    toast(
+      "Preencha todos os campos."
+    );
+
+    return;
+  }
+
+
+  const oldCredits =
+    credits;
+
+  credits -= 6;
+
+  updateCredits();
+
+
+  const saved =
+    await saveUserData();
+
+
+  if (!saved) {
+
+    credits =
+      oldCredits;
+
+    updateCredits();
+
+    return;
+  }
+
+
+  const leads =
+    demoLeads.slice(
+      0,
+      resultLimit[currentPlan] ||
+      6
+    );
+
+
+  renderResults(
+    leads,
+    {
+      state: stateSelect.value,
+      city: citySelect.value,
+      type: typeSelect.value,
+      need: needSelect.value
+    }
+  );
+
+
+  toast(
+    `${leads.length} leads encontrados.`
+  );
+
+
+  if (credits < 6) {
+
+    setTimeout(
+      showPlans,
+      800
+    );
+  }
 }
 
-if (credits < 6) {
-
-showPlans();
-
-return;
-
-}
-
-if (
-!stateSelect.value ||
-!citySelect.value ||
-!typeSelect.value ||
-!needSelect.value
-) {
-
-toast(
-  "Preencha todos os campos."
-);
-
-return;
-
-}
-
-credits -= 6;
-
-updateCredits();
-
-await saveUserData();
-
-const leads =
-demoLeads.slice(
-0,
-resultLimit[currentPlan] || 6
-);
-
-renderResults(
-leads,
-{
-state:
-stateSelect.value,
-
-  city:
-    citySelect.value,
-
-  type:
-    typeSelect.value,
-
-  need:
-    needSelect.value
-}
-
-);
-
-if (credits < 6) {
-
-setTimeout(
-  showPlans,
-  500
-);
-
-}
-}
 
 /* =========================
-RESULTADOS
+   RESULTADOS
 ========================= */
 
 function renderResults(
-leads,
-filters
+  leads,
+  filters
 ) {
 
-document.getElementById(
-"resultCount"
-).textContent =
-"${leads.length} leads";
+  document.getElementById(
+    "resultCount"
+  ).textContent =
+    `${leads.length} leads`;
 
-document.getElementById(
-"resultsTitle"
-).textContent =
-"Leads em ${filters.city}";
 
-results.innerHTML =
-leads
-.map(lead => {
+  document.getElementById(
+    "resultsTitle"
+  ).textContent =
+    `Leads em ${filters.city}`;
 
-    const name =
-      lead[0];
 
-    const type =
-      lead[1];
+  results.innerHTML =
+    leads
+      .map(
+        lead => {
 
-    const phone =
-      lead[2];
+          const name =
+            lead[0];
 
-    const message =
-      createApproach(
-        name,
-        filters
+          const type =
+            lead[1];
+
+          const phone =
+            lead[2];
+
+
+          const message =
+            createApproach(
+              name,
+              filters
+            );
+
+
+          return `
+            <article class="result-card">
+
+              <div class="result-main">
+
+                <div class="avatar">
+                  ${escapeHTML(
+                    getInitials(name)
+                  )}
+                </div>
+
+                <div>
+
+                  <h4>
+                    ${escapeHTML(name)}
+                  </h4>
+
+                  <div class="result-meta">
+
+                    ${escapeHTML(type)}
+                    •
+                    ${escapeHTML(filters.city)}
+                    -
+                    ${escapeHTML(filters.state)}
+
+                    <br>
+
+                    ${escapeHTML(phone)}
+
+                  </div>
+
+                  <div class="badges">
+
+                    <span class="badge green">
+                      Oportunidade
+                    </span>
+
+                    <span class="badge">
+                      Possível ausência de site
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="actions">
+
+                <button
+                  class="icon-btn"
+                  data-copy="${encodeURIComponent(message)}">
+
+                  📋 Copiar
+
+                </button>
+
+                <button
+                  class="icon-btn whatsapp"
+                  data-phone="${escapeHTML(phone)}"
+                  data-message="${encodeURIComponent(message)}">
+
+                  WhatsApp
+
+                </button>
+
+              </div>
+
+            </article>
+          `;
+        }
+      )
+      .join("");
+
+
+  results
+    .querySelectorAll("[data-copy]")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          copyMessage(
+            decodeURIComponent(
+              button.dataset.copy
+            )
+          );
+
+        }
       );
 
-
-    return `
-
-      <article class="result-card">
-
-        <div>
-
-          <h4>
-            ${escapeHTML(name)}
-          </h4>
-
-          <div class="result-meta">
-
-            ${escapeHTML(type)}
-            •
-            ${escapeHTML(filters.city)}
-            -
-            ${escapeHTML(filters.state)}
-
-            <br>
-
-            ${escapeHTML(phone)}
-
-          </div>
-
-          <div class="badges">
-
-            <span class="badge green">
-              Oportunidade
-            </span>
-
-            <span class="badge">
-              Possível ausência de site
-            </span>
-
-          </div>
-
-        </div>
-
-        <div class="actions">
-
-          <button
-            class="icon-btn"
-            onclick='copyMessage(${JSON.stringify(message)})'>
-
-            📋 Copiar
-
-          </button>
+    });
 
 
-          <button
-            class="icon-btn whatsapp"
-            onclick='openWhatsApp(${JSON.stringify(phone)}, ${JSON.stringify(message)})'>
+  results
+    .querySelectorAll("[data-phone]")
+    .forEach(button => {
 
-            WhatsApp
+      button.addEventListener(
+        "click",
+        () => {
 
-          </button>
+          openWhatsApp(
+            button.dataset.phone,
+            decodeURIComponent(
+              button.dataset.message
+            )
+          );
 
-        </div>
+        }
+      );
 
-      </article>
-
-    `;
-
-  })
-  .join("");
-
+    });
 }
 
+
 /* =========================
-ABORDAGEM
+   ABORDAGEM
 ========================= */
 
 function createApproach(
-name,
-filters
+  name,
+  filters
 ) {
 
-if (currentPlan === "MAX") {
+  if (currentPlan === "MAX") {
 
-return `Olá! Tudo bem? Conheci a ${name} e percebi uma oportunidade de melhorar a presença digital do negócio. Trabalho com criação de sites profissionais e posso preparar uma ideia personalizada para vocês. Posso te mostrar um exemplo sem compromisso?`;
+    return `Olá! Tudo bem? Conheci a ${name} e percebi uma oportunidade de melhorar a presença digital do negócio. Trabalho com criação de sites profissionais e posso preparar uma ideia personalizada para vocês. Posso te mostrar um exemplo sem compromisso?`;
+  }
 
+
+  if (currentPlan === "PRO") {
+
+    return `Olá! Tudo bem? Conheci a ${name} e trabalho com criação de sites profissionais para empresas. Posso te mostrar uma ideia de site para o negócio, sem compromisso?`;
+  }
+
+
+  return `Olá! Tudo bem? Trabalho com criação de sites para empresas e gostaria de mostrar uma ideia para a ${name}. Posso te enviar um exemplo?`;
 }
 
-if (currentPlan === "PRO") {
-
-return `Olá! Tudo bem? Conheci a ${name} e trabalho com criação de sites profissionais para empresas. Posso te mostrar uma ideia de site para o negócio, sem compromisso?`;
-
-}
-
-return "Olá! Tudo bem? Trabalho com criação de sites para empresas e gostaria de mostrar uma ideia para a ${name}. Posso te enviar um exemplo?";
-}
 
 /* =========================
-WHATSAPP
+   WHATSAPP
 ========================= */
 
 function openWhatsApp(
-phone,
-message
+  phone,
+  message
 ) {
 
-const number =
-String(phone)
-.replace(/\D/g, "");
+  const number =
+    String(phone)
+      .replace(/\D/g, "");
 
-if (!number) {
 
-toast(
-  "Número não disponível."
-);
+  if (!number) {
 
-return;
+    toast(
+      "Número não disponível."
+    );
 
+    return;
+  }
+
+
+  const url =
+    `https://wa.me/55${number}?text=${encodeURIComponent(message)}`;
+
+
+  window.open(
+    url,
+    "_blank",
+    "noopener,noreferrer"
+  );
 }
 
-window.open(
-"https://wa.me/55${number}?text=${encodeURIComponent(message)}",
-"_blank"
-);
-}
 
 /* =========================
-COPIAR
+   COPIAR
 ========================= */
 
-async function copyMessage(message) {
-
-try {
-
-await navigator.clipboard
-  .writeText(message);
-
-toast(
-  "Mensagem copiada!"
-);
-
-} catch {
-
-toast(
-  "Não foi possível copiar."
-);
-
-}
-}
-
-/* =========================
-PLANOS
-========================= */
-
-function checkout(plan) {
-
-const link =
-CAKTO_LINKS[plan];
-
-if (
-!link ||
-link.includes("COLE_AQUI")
+async function copyMessage(
+  message
 ) {
 
-toast(
-  `O link da Cakto do plano ${plan} ainda não foi configurado.`
-);
+  try {
 
-return;
+    await navigator.clipboard
+      .writeText(message);
 
+    toast(
+      "Mensagem copiada!"
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    toast(
+      "Não foi possível copiar."
+    );
+  }
 }
 
-window.location.href =
-link;
-}
+
+/* =========================
+   PLANOS
+========================= */
+
+document
+  .getElementById("proBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      toast(
+        "Pagamento será configurado posteriormente."
+      );
+
+    }
+  );
+
+
+document
+  .getElementById("maxBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      toast(
+        "Pagamento será configurado posteriormente."
+      );
+
+    }
+  );
+
 
 function showPlans() {
 
-document
-.getElementById("planos")
-.scrollIntoView({
-behavior: "smooth"
-});
+  document
+    .getElementById("planos")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
 
-toast(
-"Seus créditos acabaram. Escolha um plano."
-);
+  toast(
+    "Seus créditos acabaram. Escolha um plano."
+  );
 }
 
-/* =========================
-LOGIN MODAL
-========================= */
 
-const modal =
-document.getElementById(
-"authModal"
-);
+/* =========================
+   MODAL
+========================= */
 
 function openAuth(mode) {
 
-modal.classList.add(
-"show"
-);
-
-setAuthMode(mode);
-}
-
-function closeAuth() {
-
-modal.classList.remove(
-"show"
-);
-}
-
-function setAuthMode(mode) {
-
-const login =
-mode === "login";
-
-document.getElementById(
-"authEyebrow"
-).textContent =
-login
-? "LOGIN"
-: "CRIAR CONTA";
-
-document.getElementById(
-"authTitle"
-).textContent =
-login
-? "Entrar"
-: "Criar conta";
-
-document.getElementById(
-"authSub"
-).textContent =
-login
-? "Entre na sua conta LeadFinder."
-: "Comece com 30 créditos grátis.";
-
-const phone =
-document.getElementById(
-"phone"
-);
-
-phone.style.display =
-login
-? "none"
-: "block";
-
-phone.required =
-!login;
-
-document.getElementById(
-"switchAuth"
-).textContent =
-login
-? "Ainda não tenho uma conta"
-: "Já tenho uma conta";
-
-document.getElementById(
-"switchAuth"
-).onclick =
-() =>
-setAuthMode(
-login
-? "register"
-: "login"
-);
-
-const submitButton =
-document.querySelector(
-"#authForm button[type='submit']"
-);
-
-if (submitButton) {
-
-submitButton.textContent =
-  login
-    ? "Entrar"
-    : "Criar conta";
-
-}
-}
-
-/* =========================
-UTILITÁRIOS
-========================= */
-
-function escapeHTML(value) {
-
-return String(
-value ?? ""
-).replace(
-/[&<>"']/g,
-char => ({
-
-  "&": "&amp;",
-  "<": "&lt;",
-  ">": "&gt;",
-  '"': "&quot;",
-  "'": "&#039;"
-
-}[char])
-
-);
-}
-
-function toast(message) {
-
-const element =
-document.getElementById(
-"toast"
-);
-
-if (!element) {
-
-alert(message);
-
-return;
-
-}
-
-element.textContent =
-message;
-
-element.classList.add(
-"show"
-);
-
-setTimeout(
-() => {
-
-  element.classList.remove(
+  authModal.classList.add(
     "show"
   );
 
-},
-5000
+  setAuthMode(mode);
 
-);
+  setTimeout(
+    () => emailInput.focus(),
+    100
+  );
 }
 
-/* =========================
-INICIALIZAÇÃO
-========================= */
 
-window.addEventListener(
-"load",
-() => {
+function closeAuth() {
 
-setTimeout(
-  initializeAuth,
-  500
-);
+  authModal.classList.remove(
+    "show"
+  );
 
+  authForm.reset();
+
+  setAuthLoading(false);
 }
-);
+
+
+function setAuthMode(mode) {
+
+  authMode =
+    mode === "login"
+      ? "login"
+      : "register";
+
+
+  const login =
+    authMode === "login";
+
+
+  authEyebrow.textContent =
+    login
+      ? "LOGIN"
+      : "CRIAR CONTA";
+
+
+  authTitle.textContent =
+    login
+      ? "Entrar"
+      : "Criar conta";
+
+
+  authSub.textContent =
+    login
+      ? "Entre na sua conta LeadFinder."
+      : "Comece com 30 créditos grátis.";
+
+
+  phoneLabel.style.display =
+    login
+      ? "none"
+      : "block";
+
+
+  phoneInput.required =
+    !login;
+
+
+  switchAuth.textContent =
+    login
+      ? "Ainda não tenho uma conta"
+      : "Já tenho uma conta";
+
+
+  authSubmitText.textContent =
+    login
+      ? "Entrar"
+      : "Criar conta";
+}
+
 
 /* =========================
-FUNÇÕES GLOBAIS
+   BOTÕES HERO
 ========================= */
 
-window.openAuth =
-openAuth;
+document
+  .getElementById("startBtn")
+  .addEventListener(
+    "click",
+    () => {
 
-window.closeAuth =
-closeAuth;
+      document
+        .getElementById("ferramenta")
+        .scrollIntoView({
+          behavior: "smooth"
+        });
 
-window.checkout =
-checkout;
+    }
+  );
 
-window.copyMessage =
-copyMessage;
 
-window.openWhatsApp =
-openWhatsApp;
+document
+  .getElementById("howBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      document
+        .getElementById("como-funciona")
+        .scrollIntoView({
+         
