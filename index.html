@@ -2,133 +2,981 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>LeadFinder — Neon Blue</title>
-  <meta name="description" content="Encontre empresas que podem precisar de um site e transforme oportunidades em clientes.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>LeadFinder | Encontre novos clientes</title>
+
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
   <div class="bg-grid"></div>
-  <div class="orb orb-a"></div><div class="orb orb-b"></div>
 
   <header class="topbar">
-    <a class="brand" href="#inicio"><span class="brand-mark">LF</span><span>LeadFinder</span></a>
+
+    <a href="#inicio" class="brand">
+      <span class="brand-mark">LF</span>
+      <span>LeadFinder</span>
+    </a>
+
     <nav>
-      <a href="#como-funciona">Como funciona</a>
-      <a href="#ferramenta">Ferramenta</a>
-      <a href="#planos">Planos</a>
-      <button class="btn ghost" onclick="openAuth('login')">Entrar</button>
-      <button class="btn primary" onclick="openAuth('register')">Criar conta</button>
+
+      <a href="#como-funciona">
+        Como funciona
+      </a>
+
+      <a href="#ferramenta">
+        Ferramenta
+      </a>
+
+      <a href="#planos">
+        Planos
+      </a>
+
+      <button
+        class="btn ghost"
+        onclick="openAuth('login')">
+        Entrar
+      </button>
+
+      <button
+        class="btn primary"
+        onclick="openAuth('register')">
+        Criar conta
+      </button>
+
     </nav>
+
   </header>
 
+
   <main>
+
+    <!-- HERO -->
+
     <section id="inicio" class="hero section">
-      <div class="hero-copy reveal">
-        <div class="eyebrow"><span class="pulse"></span> PROSPECÇÃO INTELIGENTE</div>
-        <h1>Encontre negócios.<br><span>Encontre oportunidades.</span></h1>
-        <p>O LeadFinder ajuda você a localizar estabelecimentos e empresas que podem precisar de um site, organizar os dados e iniciar a abordagem pelo WhatsApp.</p>
+
+      <div class="hero-copy">
+
+        <div class="eyebrow">
+          <span class="pulse"></span>
+          PROSPECÇÃO INTELIGENTE
+        </div>
+
+        <h1>
+          Encontre negócios.
+          <br>
+          <span>Encontre oportunidades.</span>
+        </h1>
+
+        <p>
+          Encontre empresas e estabelecimentos,
+          identifique oportunidades digitais e
+          comece sua abordagem pelo WhatsApp.
+        </p>
+
         <div class="hero-actions">
-          <button class="btn primary xl" onclick="document.querySelector('#ferramenta').scrollIntoView({behavior:'smooth'})">Começar a buscar</button>
-          <button class="btn glass xl" onclick="document.querySelector('#como-funciona').scrollIntoView({behavior:'smooth'})">Ver como funciona</button>
+
+          <button
+            class="btn primary xl"
+            onclick="document.getElementById('ferramenta').scrollIntoView({behavior:'smooth'})">
+            Começar a buscar
+          </button>
+
+          <button
+            class="btn glass xl"
+            onclick="document.getElementById('como-funciona').scrollIntoView({behavior:'smooth'})">
+            Como funciona
+          </button>
+
         </div>
+
         <div class="mini-stats">
-          <div><b>30</b><small>créditos Free</small></div>
-          <div><b>15</b><small>leads Pro/busca</small></div>
-          <div><b>50</b><small>leads Max/busca</small></div>
+
+          <div>
+            <b>30</b>
+            <small>créditos grátis</small>
+          </div>
+
+          <div>
+            <b>15</b>
+            <small>leads no Pro</small>
+          </div>
+
+          <div>
+            <b>50</b>
+            <small>leads no Max</small>
+          </div>
+
         </div>
+
       </div>
-      <div class="hero-card reveal">
-        <div class="window-head"><span></span><span></span><span></span><b>LeadFinder / busca</b></div>
+
+
+      <div class="hero-card">
+
+        <div class="window-head">
+
+          <span></span>
+          <span></span>
+          <span></span>
+
+          <b>LeadFinder</b>
+
+        </div>
+
+
         <div class="fake-search">
-          <span>São Paulo</span><span>Hamburgueria</span><span>Sem site</span>
-          <button class="search-dot">⌕</button>
+
+          <span>São Paulo</span>
+          <span>Hamburgueria</span>
+          <span>Sem site</span>
+
+          <button>
+            🔎
+          </button>
+
         </div>
+
+
         <div class="fake-leads">
-          <div class="lead-row"><div class="avatar">BH</div><div><b>Burger House</b><small>São Paulo • Hamburgueria</small></div><i>SEM SITE</i></div>
-          <div class="lead-row"><div class="avatar">PD</div><div><b>Pizza do Bairro</b><small>São Paulo • Pizzaria</small></div><i>SEM SITE</i></div>
-          <div class="lead-row"><div class="avatar">CB</div><div><b>Café Brasil</b><small>São Paulo • Cafeteria</small></div><i>SEM SITE</i></div>
+
+          <div class="lead-row">
+
+            <div class="avatar">
+              BH
+            </div>
+
+            <div>
+              <b>Burger House</b>
+
+              <small>
+                São Paulo • Hamburgueria
+              </small>
+            </div>
+
+            <i>
+              SEM SITE
+            </i>
+
+          </div>
+
+
+          <div class="lead-row">
+
+            <div class="avatar">
+              PD
+            </div>
+
+            <div>
+
+              <b>Pizza do Bairro</b>
+
+              <small>
+                São Paulo • Pizzaria
+              </small>
+
+            </div>
+
+            <i>
+              SEM SITE
+            </i>
+
+          </div>
+
+
+          <div class="lead-row">
+
+            <div class="avatar">
+              CB
+            </div>
+
+            <div>
+
+              <b>Café Brasil</b>
+
+              <small>
+                São Paulo • Cafeteria
+              </small>
+
+            </div>
+
+            <i>
+              SEM SITE
+            </i>
+
+          </div>
+
         </div>
+
       </div>
+
     </section>
+
+
+    <!-- COMO FUNCIONA -->
 
     <section id="como-funciona" class="section">
-      <div class="section-title"><span class="eyebrow">COMO FUNCIONA</span><h2>Da busca ao contato em poucos passos.</h2><p>Você define o perfil do lead, o sistema organiza os resultados e entrega ações prontas para prospecção.</p></div>
-      <div class="steps">
-        <article><span>01</span><h3>Escolha a região</h3><p>Selecione estado e cidade. A lista de cidades é carregada pela API do IBGE.</p></article>
-        <article><span>02</span><h3>Defina o negócio</h3><p>Escolha o tipo de estabelecimento e o serviço/oportunidade que deseja prospectar.</p></article>
-        <article><span>03</span><h3>Busque leads</h3><p>A busca consome 6 créditos e retorna uma quantidade conforme seu plano.</p></article>
-        <article><span>04</span><h3>Aborde</h3><p>Copie uma abordagem ou abra o WhatsApp do lead para iniciar o contato.</p></article>
+
+      <div class="section-title">
+
+        <span class="eyebrow">
+          COMO FUNCIONA
+        </span>
+
+        <h2>
+          Da busca ao contato.
+        </h2>
+
+        <p>
+          Escolha o local, o tipo de negócio
+          e o serviço que deseja prospectar.
+        </p>
+
       </div>
+
+
+      <div class="steps">
+
+        <article>
+
+          <span>01</span>
+
+          <h3>
+            Escolha a região
+          </h3>
+
+          <p>
+            Selecione o estado e a cidade
+            onde deseja encontrar oportunidades.
+          </p>
+
+        </article>
+
+
+        <article>
+
+          <span>02</span>
+
+          <h3>
+            Escolha o negócio
+          </h3>
+
+          <p>
+            Selecione hamburguerias,
+            restaurantes, clínicas,
+            lojas e vários outros segmentos.
+          </p>
+
+        </article>
+
+
+        <article>
+
+          <span>03</span>
+
+          <h3>
+            Faça a busca
+          </h3>
+
+          <p>
+            Cada busca utiliza 6 créditos
+            da sua conta.
+          </p>
+
+        </article>
+
+
+        <article>
+
+          <span>04</span>
+
+          <h3>
+            Entre em contato
+          </h3>
+
+          <p>
+            Copie a abordagem ou abra
+            diretamente o WhatsApp.
+          </p>
+
+        </article>
+
+      </div>
+
     </section>
+
+
+    <!-- RECURSOS -->
 
     <section class="section feature-grid">
+
       <div class="feature-panel">
-        <span class="eyebrow">O QUE A FERRAMENTA MOSTRA</span>
-        <h2>Informações úteis para a sua prospecção.</h2>
+
+        <span class="eyebrow">
+          O QUE APARECE
+        </span>
+
+        <h2>
+          Informações para sua prospecção.
+        </h2>
+
         <ul class="checks">
-          <li>Nome do estabelecimento/empresa</li><li>Categoria e serviço</li><li>Cidade e estado</li><li>Telefone/WhatsApp quando disponível</li><li>Indicação de presença/ausência de site</li><li>Mensagem de abordagem pronta</li><li>Ação de copiar e abrir WhatsApp</li>
+
+          <li>
+            Nome da empresa
+          </li>
+
+          <li>
+            Categoria
+          </li>
+
+          <li>
+            Cidade e estado
+          </li>
+
+          <li>
+            Telefone/WhatsApp
+          </li>
+
+          <li>
+            Possível ausência de site
+          </li>
+
+          <li>
+            Abordagem pronta
+          </li>
+
+          <li>
+            Botão de WhatsApp
+          </li>
+
+          <li>
+            Copiar mensagem
+          </li>
+
         </ul>
+
       </div>
+
+
       <div class="feature-panel">
-        <span class="eyebrow">OPORTUNIDADES</span>
-        <h2>Procure diferentes necessidades.</h2>
-        <div class="tag-cloud" id="serviceTags"></div>
+
+        <span class="eyebrow">
+          SERVIÇOS
+        </span>
+
+        <h2>
+          Várias oportunidades.
+        </h2>
+
+        <div id="serviceTags" class="tag-cloud"></div>
+
       </div>
+
     </section>
 
-    <section id="ferramenta" class="section tool-section">
-      <div class="section-title"><span class="eyebrow">LEADFINDER</span><h2>Encontre seus próximos clientes.</h2><p>Faça uma busca de demonstração ou conecte o backend/API para dados reais.</p></div>
-      <div class="tool-layout">
-        <div class="search-card">
-          <div class="credit-bar"><div><b>Créditos disponíveis</b><strong id="creditCount">30</strong></div><span>6 créditos por busca</span></div>
-          <label>Estado<select id="stateSelect"><option value="">Carregando estados...</option></select></label>
-          <label>Cidade<select id="citySelect" disabled><option value="">Selecione o estado primeiro</option></select></label>
-          <label>Estabelecimento ou empresa<select id="typeSelect"></select></label>
-          <label>O que procurar<select id="needSelect"></select></label>
-          <button id="searchBtn" class="btn primary full">Buscar leads <span>→</span></button>
-          <p class="hint">Cada busca consome 6 créditos. O resultado real depende da API conectada.</p>
-        </div>
-        <div class="results-area">
-          <div class="results-head"><div><span class="eyebrow">RESULTADOS</span><h3 id="resultsTitle">Prontos para prospectar</h3></div><span id="resultCount" class="count-pill">0 leads</span></div>
-          <div id="results" class="results"><div class="empty"><div class="empty-icon">⌕</div><h3>Faça sua primeira busca</h3><p>Escolha região, categoria e oportunidade.</p></div></div>
-        </div>
+
+    <!-- FERRAMENTA -->
+
+    <section id="ferramenta" class="section">
+
+      <div class="section-title">
+
+        <span class="eyebrow">
+          LEADFINDER
+        </span>
+
+        <h2>
+          Encontre seus próximos leads.
+        </h2>
+
+        <p>
+          Escolha os filtros abaixo e faça sua busca.
+        </p>
+
       </div>
+
+
+      <div class="tool-layout">
+
+
+        <div class="search-card">
+
+          <div class="credit-bar">
+
+            <div>
+
+              <b>
+                Seus créditos
+              </b>
+
+              <strong id="creditCount">
+                30
+              </strong>
+
+            </div>
+
+            <span>
+              6 créditos por busca
+            </span>
+
+          </div>
+
+
+          <label>
+
+            Estado
+
+            <select id="stateSelect">
+
+              <option value="">
+                Selecione o estado
+              </option>
+
+            </select>
+
+          </label>
+
+
+          <label>
+
+            Cidade
+
+            <select
+              id="citySelect"
+              disabled>
+
+              <option>
+                Selecione o estado primeiro
+              </option>
+
+            </select>
+
+          </label>
+
+
+          <label>
+
+            Estabelecimento ou empresa
+
+            <select id="typeSelect">
+
+              <option value="">
+                Selecione
+              </option>
+
+            </select>
+
+          </label>
+
+
+          <label>
+
+            Serviço para procurar
+
+            <select id="needSelect">
+
+              <option value="">
+                Selecione
+              </option>
+
+            </select>
+
+          </label>
+
+
+          <button
+            id="searchBtn"
+            class="btn primary full">
+
+            🔎 Buscar leads
+
+          </button>
+
+
+          <p class="hint">
+
+            Cada busca utiliza 6 créditos.
+
+          </p>
+
+        </div>
+
+
+        <div class="results-area">
+
+          <div class="results-head">
+
+            <div>
+
+              <span class="eyebrow">
+                RESULTADOS
+              </span>
+
+              <h3 id="resultsTitle">
+                Seus leads aparecerão aqui
+              </h3>
+
+            </div>
+
+            <span
+              id="resultCount"
+              class="count-pill">
+              0 leads
+            </span>
+
+          </div>
+
+
+          <div
+            id="results"
+            class="results">
+
+            <div class="empty">
+
+              <div class="empty-icon">
+                🔎
+              </div>
+
+              <h3>
+                Faça uma busca
+              </h3>
+
+              <p>
+                Os resultados aparecerão aqui.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
     </section>
+
+
+    <!-- PLANOS -->
 
     <section id="planos" class="section">
-      <div class="section-title"><span class="eyebrow">PLANOS E CRÉDITOS</span><h2>Escolha o nível de prospecção.</h2><p>Os botões abaixo estão preparados para receber seus links de checkout da Cakto.</p></div>
-      <div class="pricing">
-        <article class="price-card">
-          <span class="plan">FREE</span><h3>R$ 0</h3><p>Para conhecer a ferramenta.</p>
-          <ul><li>30 créditos</li><li>6 créditos por busca</li><li>Até 6 leads por busca</li><li>Abordagem simples</li></ul>
-          <button class="btn glass full" onclick="openAuth('register')">Começar grátis</button>
-        </article>
-        <article class="price-card featured">
-          <div class="popular">MAIS PROCURADO</div><span class="plan">PRO</span><h3>R$ 19,90</h3><p>Para prospecção frequente.</p>
-          <ul><li>100 créditos</li><li>Até 15 leads por busca</li><li>Abordagem melhorada</li><li>WhatsApp + copiar mensagem</li></ul>
-          <button class="btn primary full" onclick="checkout('PRO')">Assinar na Cakto</button>
-        </article>
-        <article class="price-card"><span class="plan">MAX</span><h3>R$ 30</h3><p>Para quem quer volume.</p>
-          <ul><li>Mais volume de resultados</li><li>Até 50 leads por busca</li><li>Abordagem avançada</li><li>WhatsApp + copiar mensagem</li></ul>
-          <button class="btn primary full" onclick="checkout('MAX')">Assinar na Cakto</button>
-        </article>
+
+      <div class="section-title">
+
+        <span class="eyebrow">
+          PLANOS
+        </span>
+
+        <h2>
+          Escolha seu plano.
+        </h2>
+
+        <p>
+          O plano Free começa com 30 créditos.
+        </p>
+
       </div>
+
+
+      <div class="pricing">
+
+
+        <article class="price-card">
+
+          <span class="plan">
+            FREE
+          </span>
+
+          <h3>
+            R$ 0
+          </h3>
+
+          <p>
+            Para começar.
+          </p>
+
+          <ul>
+
+            <li>
+              30 créditos
+            </li>
+
+            <li>
+              6 créditos por busca
+            </li>
+
+            <li>
+              Até 6 leads
+            </li>
+
+            <li>
+              Abordagem simples
+            </li>
+
+          </ul>
+
+          <button
+            class="btn glass full"
+            onclick="openAuth('register')">
+
+            Começar grátis
+
+          </button>
+
+        </article>
+
+
+        <article class="price-card featured">
+
+          <div class="popular">
+            PRO
+          </div>
+
+          <span class="plan">
+            PRO
+          </span>
+
+          <h3>
+            R$ 19,90
+          </h3>
+
+          <p>
+            Para prospectar mais.
+          </p>
+
+          <ul>
+
+            <li>
+              100 créditos
+            </li>
+
+            <li>
+              Até 15 leads
+            </li>
+
+            <li>
+              Abordagem melhorada
+            </li>
+
+            <li>
+              WhatsApp
+            </li>
+
+          </ul>
+
+          <button
+            class="btn primary full"
+            onclick="checkout('PRO')">
+
+            Assinar PRO
+
+          </button>
+
+        </article>
+
+
+        <article class="price-card">
+
+          <span class="plan">
+            MAX
+          </span>
+
+          <h3>
+            R$ 30
+          </h3>
+
+          <p>
+            Para maior volume.
+          </p>
+
+          <ul>
+
+            <li>
+              Mais créditos
+            </li>
+
+            <li>
+              Até 50 leads
+            </li>
+
+            <li>
+              Abordagem avançada
+            </li>
+
+            <li>
+              WhatsApp
+            </li>
+
+          </ul>
+
+          <button
+            class="btn primary full"
+            onclick="checkout('MAX')">
+
+            Assinar MAX
+
+          </button>
+
+        </article>
+
+      </div>
+
     </section>
 
-    <section class="section faq">
-      <div class="section-title"><span class="eyebrow">DÚVIDAS</span><h2>O que você precisa saber.</h2></div>
-      <details><summary>De onde vêm os leads?</summary><p>No modo real, o backend consulta uma API de dados de empresas/locais autorizada e normaliza os resultados. O projeto inclui um modo demo para testar a interface sem API.</p></details>
-      <details><summary>A ferramenta garante que a empresa não tem site?</summary><p>Não. A ausência de site deve ser tratada como um sinal de oportunidade e validada com os dados da fonte antes da abordagem.</p></details>
-      <details><summary>Posso trocar os textos e os links da Cakto?</summary><p>Sim. Os links ficam centralizados no JavaScript para você substituir pelos seus checkouts reais.</p></details>
+
+    <!-- FAQ -->
+
+    <section class="section">
+
+      <div class="section-title">
+
+        <span class="eyebrow">
+          FAQ
+        </span>
+
+        <h2>
+          Perguntas frequentes.
+        </h2>
+
+      </div>
+
+
+      <details>
+
+        <summary>
+          Como os leads são encontrados?
+        </summary>
+
+        <p>
+          O LeadFinder foi estruturado para
+          consultar APIs de empresas e locais.
+          A integração com a API real será feita
+          no backend.
+        </p>
+
+      </details>
+
+
+      <details>
+
+        <summary>
+          O sistema confirma que uma empresa não possui site?
+        </summary>
+
+        <p>
+          Essa informação deve ser validada
+          com os dados da fonte antes da abordagem.
+        </p>
+
+      </details>
+
+
+      <details>
+
+        <summary>
+          Como funcionam os créditos?
+        </summary>
+
+        <p>
+          Cada busca utiliza 6 créditos.
+          O plano Free começa com 30 créditos.
+        </p>
+
+      </details>
+
     </section>
+
   </main>
 
-  <footer><div class="brand"><span class="brand-mark">LF</span><span>LeadFinder</span></div><p>Prospecção inteligente para quem vende presença digital.</p><small>© 2026 LeadFinder. Todos os direitos reservados.</small></footer>
 
-  <div id="authModal" class="modal"><div class="modal-box"><button class="close" onclick="closeAuth()">×</button><div class="eyebrow" id="authEyebrow">CONTA</div><h2 id="authTitle">Criar conta</h2><p id="authSub">Comece com 30 créditos grátis.</p><form id="authForm"><label>Gmail<input type="email" id="email" placeholder="voce@gmail.com" required></label><label>Número do celular<input type="tel" id="phone" placeholder="(00) 00000-0000" required></label><label>Senha<input type="password" id="password" placeholder="••••••••" required minlength="6"></label><button class="btn primary full" type="submit">Continuar</button></form><button class="link-btn" id="switchAuth">Já tenho uma conta</button></div></div>
+  <footer>
+
+    <div class="brand">
+
+      <span class="brand-mark">
+        LF
+      </span>
+
+      <span>
+        LeadFinder
+      </span>
+
+    </div>
+
+    <p>
+      Prospecção inteligente.
+    </p>
+
+    <small>
+      © 2026 LeadFinder
+    </small>
+
+  </footer>
+
+
+  <!-- MODAL -->
+
+  <div id="authModal" class="modal">
+
+    <div class="modal-box">
+
+      <button
+        class="close"
+        onclick="closeAuth()">
+        ×
+      </button>
+
+
+      <div
+        class="eyebrow"
+        id="authEyebrow">
+        CRIAR CONTA
+      </div>
+
+
+      <h2 id="authTitle">
+        Criar conta
+      </h2>
+
+
+      <p id="authSub">
+        Comece com 30 créditos grátis.
+      </p>
+
+
+      <form id="authForm">
+
+
+        <label>
+
+          Gmail
+
+          <input
+            type="email"
+            id="email"
+            placeholder="seuemail@gmail.com"
+            required>
+
+        </label>
+
+
+        <label>
+
+          Número do celular
+
+          <input
+            type="tel"
+            id="phone"
+            placeholder="(00) 00000-0000">
+
+        </label>
+
+
+        <label>
+
+          Senha
+
+          <input
+            type="password"
+            id="password"
+            placeholder="Mínimo 6 caracteres"
+            minlength="6"
+            required>
+
+        </label>
+
+
+        <button
+          type="submit"
+          class="btn primary full">
+
+          Criar conta
+
+        </button>
+
+      </form>
+
+
+      <button
+        id="switchAuth"
+        class="link-btn">
+
+        Já tenho uma conta
+
+      </button>
+
+    </div>
+
+  </div>
+
 
   <div id="toast" class="toast"></div>
+
+
+  <!-- FIREBASE -->
+
+  <script type="module">
+
+    import {
+      initializeApp
+    } from
+    "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+
+    import {
+      getAuth
+    } from
+    "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+
+    import {
+      getFirestore
+    } from
+    "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+    const firebaseConfig = {
+
+      apiKey:
+        "AIzaSyBYCtd7kjuAOPEROpkZM3eDOpnCk4xg5kM",
+
+      authDomain:
+        "leadfinder-da5c6.firebaseapp.com",
+
+      projectId:
+        "leadfinder-da5c6",
+
+      storageBucket:
+        "leadfinder-da5c6.firebasestorage.app",
+
+      messagingSenderId:
+        "135285316125",
+
+      appId:
+        "1:135285316125:web:228528bb9f6c50e5b104f4",
+
+      measurementId:
+        "G-PB7GXC14WK"
+    };
+
+
+    const app =
+      initializeApp(firebaseConfig);
+
+
+    window.firebaseAuth =
+      getAuth(app);
+
+
+    window.firebaseDb =
+      getFirestore(app);
+
+  </script>
+
+
   <script src="script.js"></script>
+
 </body>
-</html>
+              </html>
