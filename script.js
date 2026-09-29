@@ -1,6 +1,6 @@
 /* =========================================================
-   LEADFINDER
-   Firebase + Autenticação + Firestore + Busca + WhatsApp
+   LEADFINDER - SCRIPT COMPLETO
+   Compatível com o index.html atual do GitHub
 ========================================================= */
 
 import {
@@ -39,10 +39,9 @@ const firebaseConfig = {
   measurementId: "G-PB7GXC14WK"
 };
 
-const app = initializeApp(firebaseConfig);
-
-const auth = getAuth(app);
-const db = getFirestore(app);
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
 
 
 /* =========================================================
@@ -76,7 +75,7 @@ const services = [
 
 
 /* =========================================================
-   TIPOS DE EMPRESA
+   TIPOS
 ========================================================= */
 
 const types = [
@@ -149,7 +148,7 @@ const states = [
 
 
 /* =========================================================
-   LEADS DE DEMONSTRAÇÃO
+   LEADS DEMO
 ========================================================= */
 
 const demoLeads = [
@@ -177,7 +176,7 @@ const demoLeads = [
 
 
 /* =========================================================
-   LIMITE DOS PLANOS
+   PLANOS
 ========================================================= */
 
 const resultLimit = {
@@ -188,7 +187,7 @@ const resultLimit = {
 
 
 /* =========================================================
-   ESTADO DA APLICAÇÃO
+   ESTADO
 ========================================================= */
 
 let credits = 30;
@@ -197,33 +196,63 @@ let currentUser = null;
 
 
 /* =========================================================
-   ELEMENTOS
+   ELEMENTOS DO HTML
 ========================================================= */
 
-const stateSelect =
-  document.getElementById("stateSelect");
-
-const citySelect =
-  document.getElementById("citySelect");
-
-const typeSelect =
-  document.getElementById("typeSelect");
-
-const needSelect =
-  document.getElementById("needSelect");
-
-const results =
-  document.getElementById("results");
-
-const authModal =
-  document.getElementById("authModal");
-
-const authForm =
-  document.getElementById("authForm");
+const stateSelect = document.getElementById("stateSelect");
+const citySelect = document.getElementById("citySelect");
+const typeSelect = document.getElementById("typeSelect");
+const needSelect = document.getElementById("needSelect");
+const results = document.getElementById("results");
+const authModal = document.getElementById("authModal");
+const authForm = document.getElementById("authForm");
 
 
 /* =========================================================
-   INICIALIZAR SELECTS
+   TOAST
+========================================================= */
+
+function toast(message) {
+
+  const element = document.getElementById("toast");
+
+  if (!element) {
+    console.log(message);
+    return;
+  }
+
+  element.textContent = message;
+  element.classList.add("show");
+
+  clearTimeout(window.leadfinderToast);
+
+  window.leadfinderToast = setTimeout(() => {
+    element.classList.remove("show");
+  }, 3500);
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(value) {
+
+  return String(value ?? "").replace(
+    /[&<>"']/g,
+    char => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    }[char])
+  );
+}
+
+
+/* =========================================================
+   SELECTS
 ========================================================= */
 
 function initializeSelects() {
@@ -237,6 +266,7 @@ function initializeSelects() {
       );
 
     });
+
   }
 
 
@@ -249,6 +279,7 @@ function initializeSelects() {
       );
 
     });
+
   }
 
 
@@ -261,6 +292,7 @@ function initializeSelects() {
       );
 
     });
+
   }
 
 
@@ -283,7 +315,7 @@ function initializeSelects() {
 
 
 /* =========================================================
-   CIDADES
+   CARREGAR CIDADES IBGE
 ========================================================= */
 
 async function loadCities() {
@@ -309,23 +341,19 @@ async function loadCities() {
 
   try {
 
-    const response =
-      await fetch(
-        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateSelect.value}/municipios?orderBy=nome`
-      );
+    const response = await fetch(
+      `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateSelect.value}/municipios?orderBy=nome`
+    );
 
 
     if (!response.ok) {
-
       throw new Error(
         `Erro HTTP ${response.status}`
       );
-
     }
 
 
-    const cities =
-      await response.json();
+    const cities = await response.json();
 
 
     citySelect.innerHTML =
@@ -346,6 +374,7 @@ async function loadCities() {
 
     citySelect.disabled = false;
 
+
   } catch (error) {
 
     console.error(
@@ -353,10 +382,8 @@ async function loadCities() {
       error
     );
 
-
     citySelect.innerHTML =
       "<option value=''>Erro ao carregar cidades</option>";
-
 
     toast(
       "Não foi possível carregar as cidades."
@@ -380,7 +407,6 @@ function openAuth(mode = "login") {
   authModal.classList.add("show");
 
   setAuthMode(mode);
-
 }
 
 
@@ -391,13 +417,12 @@ function closeAuth() {
   }
 
   authModal.classList.remove("show");
-
 }
 
 
 function setAuthMode(mode) {
 
-  const login =
+  const isLogin =
     mode === "login";
 
 
@@ -426,7 +451,7 @@ function setAuthMode(mode) {
   if (eyebrow) {
 
     eyebrow.textContent =
-      login
+      isLogin
         ? "LOGIN"
         : "CRIAR CONTA";
 
@@ -436,7 +461,7 @@ function setAuthMode(mode) {
   if (title) {
 
     title.textContent =
-      login
+      isLogin
         ? "Entrar"
         : "Criar conta";
 
@@ -446,7 +471,7 @@ function setAuthMode(mode) {
   if (sub) {
 
     sub.textContent =
-      login
+      isLogin
         ? "Entre na sua conta LeadFinder."
         : "Comece com 30 créditos grátis.";
 
@@ -456,15 +481,15 @@ function setAuthMode(mode) {
   if (phone) {
 
     phone.style.display =
-      login
+      isLogin
         ? "none"
         : "block";
 
     phone.required =
-      !login;
+      !isLogin;
 
     phone.disabled =
-      login;
+      isLogin;
 
   }
 
@@ -472,7 +497,7 @@ function setAuthMode(mode) {
   if (phoneLabel) {
 
     phoneLabel.style.display =
-      login
+      isLogin
         ? "none"
         : "block";
 
@@ -482,7 +507,7 @@ function setAuthMode(mode) {
   if (submitText) {
 
     submitText.textContent =
-      login
+      isLogin
         ? "Entrar"
         : "Criar conta";
 
@@ -492,23 +517,146 @@ function setAuthMode(mode) {
   if (switchAuth) {
 
     switchAuth.textContent =
-      login
+      isLogin
         ? "Ainda não tenho uma conta"
         : "Já tenho uma conta";
 
 
-    switchAuth.onclick =
-      () => {
+    switchAuth.onclick = () => {
 
-        setAuthMode(
-          login
-            ? "register"
-            : "login"
-        );
+      setAuthMode(
+        isLogin
+          ? "register"
+          : "login"
+      );
 
-      };
+    };
 
   }
+
+}
+
+
+/* =========================================================
+   LOADING DO FORMULÁRIO
+========================================================= */
+
+function setAuthLoading(loading) {
+
+  const button =
+    authForm?.querySelector(
+      'button[type="submit"]'
+    );
+
+  const text =
+    document.getElementById(
+      "authSubmitText"
+    );
+
+
+  if (!button) {
+    return;
+  }
+
+
+  button.disabled = loading;
+
+
+  if (text && !loading) {
+
+    const title =
+      document.getElementById(
+        "authTitle"
+      );
+
+    text.textContent =
+      title?.textContent.includes("Entrar")
+        ? "Entrar"
+        : "Criar conta";
+
+  }
+
+
+  if (text && loading) {
+
+    text.textContent =
+      "Aguarde...";
+
+  }
+
+}
+
+
+/* =========================================================
+   ERROS FIREBASE
+========================================================= */
+
+function firebaseError(error) {
+
+  console.error(
+    "Firebase:",
+    error
+  );
+
+
+  const code =
+    error?.code || "";
+
+
+  const messages = {
+
+    "auth/email-already-in-use":
+      "Este e-mail já está cadastrado.",
+
+    "auth/invalid-email":
+      "Digite um e-mail válido.",
+
+    "auth/weak-password":
+      "A senha precisa ter pelo menos 6 caracteres.",
+
+    "auth/invalid-credential":
+      "E-mail ou senha incorretos.",
+
+    "auth/user-not-found":
+      "Usuário não encontrado.",
+
+    "auth/wrong-password":
+      "Senha incorreta.",
+
+    "auth/too-many-requests":
+      "Muitas tentativas. Aguarde alguns minutos.",
+
+    "auth/network-request-failed":
+      "Erro de internet. Verifique sua conexão.",
+
+    "auth/operation-not-allowed":
+      "O login por e-mail ainda não está ativado no Firebase.",
+
+    "auth/unauthorized-domain":
+      "O domínio do GitHub Pages não está autorizado no Firebase.",
+
+    "auth/app-not-authorized":
+      "Este domínio não está autorizado no Firebase.",
+
+    "auth/invalid-api-key":
+      "A chave do Firebase está inválida.",
+
+    "permission-denied":
+      "O Firestore bloqueou o acesso. Verifique as regras do banco.",
+
+    "failed-precondition":
+      "O Firestore ainda não está configurado.",
+
+    "unavailable":
+      "O Firebase está temporariamente indisponível."
+  };
+
+
+  toast(
+    messages[code] ||
+    error?.message ||
+    "Não foi possível realizar a operação."
+  );
 
 }
 
@@ -547,13 +695,14 @@ if (authForm) {
           .trim();
 
 
-      const title =
-        document.getElementById("authTitle");
+      const authTitle =
+        document.getElementById(
+          "authTitle"
+        );
 
 
       const isLogin =
-        title &&
-        title.textContent
+        authTitle?.textContent
           .trim()
           .toLowerCase()
           .includes("entrar");
@@ -597,9 +746,9 @@ if (authForm) {
 
       try {
 
-        /* =================================================
+        /* =========================
            LOGIN
-        ================================================= */
+        ========================= */
 
         if (isLogin) {
 
@@ -631,9 +780,9 @@ if (authForm) {
         }
 
 
-        /* =================================================
+        /* =========================
            CRIAR CONTA
-        ================================================= */
+        ========================= */
 
         const credential =
           await createUserWithEmailAndPassword(
@@ -647,32 +796,36 @@ if (authForm) {
           credential.user;
 
 
-        /* =================================================
-           PERFIL
-        ================================================= */
+        /* =========================
+           TELEFONE NO PERFIL
+        ========================= */
 
-        try {
+        if (phone) {
 
-          await updateProfile(
-            currentUser,
-            {
-              displayName: phone || ""
-            }
-          );
+          try {
 
-        } catch (profileError) {
+            await updateProfile(
+              currentUser,
+              {
+                displayName: phone
+              }
+            );
 
-          console.warn(
-            "Não foi possível atualizar o perfil:",
-            profileError
-          );
+          } catch (error) {
+
+            console.warn(
+              "Perfil não atualizado:",
+              error
+            );
+
+          }
 
         }
 
 
-        /* =================================================
+        /* =========================
            FIRESTORE
-        ================================================= */
+        ========================= */
 
         await setDoc(
           doc(
@@ -700,9 +853,7 @@ if (authForm) {
 
 
         credits = 30;
-
-        currentPlan =
-          "FREE";
+        currentPlan = "FREE";
 
 
         updateCredits();
@@ -718,16 +869,7 @@ if (authForm) {
 
       } catch (error) {
 
-        console.error(
-          "Erro Firebase:",
-          error
-        );
-
-
-        showFirebaseError(
-          error
-        );
-
+        firebaseError(error);
 
       } finally {
 
@@ -742,124 +884,7 @@ if (authForm) {
 
 
 /* =========================================================
-   LOADING DO BOTÃO
-========================================================= */
-
-function setAuthLoading(loading) {
-
-  const button =
-    authForm?.querySelector(
-      'button[type="submit"]'
-    );
-
-  const text =
-    document.getElementById(
-      "authSubmitText"
-    );
-
-
-  if (!button) {
-    return;
-  }
-
-
-  button.disabled =
-    loading;
-
-
-  if (text) {
-
-    text.textContent =
-      loading
-        ? "Aguarde..."
-        : (
-            document
-              .getElementById("authTitle")
-              ?.textContent
-              .includes("Entrar")
-              ? "Entrar"
-              : "Criar conta"
-          );
-
-  }
-
-}
-
-
-/* =========================================================
-   ERROS FIREBASE
-========================================================= */
-
-function showFirebaseError(error) {
-
-  const code =
-    error?.code || "";
-
-
-  const messages = {
-
-    "auth/email-already-in-use":
-      "Este e-mail já está cadastrado.",
-
-    "auth/invalid-email":
-      "Digite um e-mail válido.",
-
-    "auth/weak-password":
-      "A senha precisa ter pelo menos 6 caracteres.",
-
-    "auth/invalid-credential":
-      "E-mail ou senha incorretos.",
-
-    "auth/user-not-found":
-      "Usuário não encontrado.",
-
-    "auth/wrong-password":
-      "Senha incorreta.",
-
-    "auth/too-many-requests":
-      "Muitas tentativas. Aguarde alguns minutos.",
-
-    "auth/network-request-failed":
-      "Erro de conexão. Verifique sua internet.",
-
-    "auth/operation-not-allowed":
-      "Ative o login por e-mail e senha no Firebase Authentication.",
-
-    "auth/unauthorized-domain":
-      "O domínio do GitHub Pages não está autorizado no Firebase.",
-
-    "auth/app-not-authorized":
-      "Este domínio não está autorizado no Firebase.",
-
-    "auth/invalid-api-key":
-      "A chave do Firebase está inválida.",
-
-    "permission-denied":
-      "O Firestore bloqueou o acesso. Verifique as regras do banco.",
-
-    "failed-precondition":
-      "O Firestore ainda não está configurado corretamente.",
-
-    "unavailable":
-      "O Firebase está temporariamente indisponível."
-  };
-
-
-  const message =
-    messages[code] ||
-    error?.message ||
-    "Não foi possível realizar a operação.";
-
-
-  toast(
-    message
-  );
-
-}
-
-
-/* =========================================================
-   CARREGAR DADOS DO USUÁRIO
+   CARREGAR USUÁRIO
 ========================================================= */
 
 async function loadUserData() {
@@ -880,9 +905,7 @@ async function loadUserData() {
 
 
     const snapshot =
-      await getDoc(
-        userRef
-      );
+      await getDoc(userRef);
 
 
     if (!snapshot.exists()) {
@@ -912,16 +935,11 @@ async function loadUserData() {
 
 
       credits = 30;
-
-      currentPlan =
-        "FREE";
-
+      currentPlan = "FREE";
 
       updateCredits();
 
-
       return;
-
     }
 
 
@@ -944,15 +962,7 @@ async function loadUserData() {
 
   } catch (error) {
 
-    console.error(
-      "Erro ao carregar usuário:",
-      error
-    );
-
-
-    showFirebaseError(
-      error
-    );
+    firebaseError(error);
 
   }
 
@@ -999,61 +1009,13 @@ async function saveUserData() {
 
   } catch (error) {
 
-    console.error(
-      "Erro ao salvar usuário:",
-      error
-    );
-
-
-    showFirebaseError(
-      error
-    );
-
+    firebaseError(error);
 
     return false;
 
   }
 
 }
-
-
-/* =========================================================
-   AUTH STATE
-========================================================= */
-
-onAuthStateChanged(
-  auth,
-  async user => {
-
-    currentUser =
-      user;
-
-
-    if (user) {
-
-      console.log(
-        "Usuário conectado:",
-        user.email
-      );
-
-
-      await loadUserData();
-
-
-    } else {
-
-      credits = 30;
-
-      currentPlan =
-        "FREE";
-
-
-      updateCredits();
-
-    }
-
-  }
-);
 
 
 /* =========================================================
@@ -1091,9 +1053,7 @@ async function searchLeads() {
     );
 
 
-    openAuth(
-      "login"
-    );
+    openAuth("login");
 
 
     return;
@@ -1156,8 +1116,7 @@ async function searchLeads() {
 
 
   const limit =
-    resultLimit[currentPlan] ||
-    6;
+    resultLimit[currentPlan] || 6;
 
 
   const leads =
@@ -1241,18 +1200,30 @@ function renderResults(
 
   results.innerHTML =
     leads
-      .map(
-        lead => {
+      .map(lead => {
 
-          const name =
-            lead[0];
+        const name =
+          lead[0];
 
-          const type =
-            lead[1];
+        const type =
+          lead[1];
 
-          const phone =
-            lead[2];
+        const phone =
+          lead[2];
 
 
-          const message =
-            
+        const message =
+          createApproach(
+            name,
+            filters
+          );
+
+
+        return `
+
+          <article class="result-card">
+
+            <div>
+
+              <h4>
+                            
