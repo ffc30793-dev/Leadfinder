@@ -1,537 +1,215 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LeadFinder</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LeadSites — Encontre negócios sem site e venda o seu</title>
+<meta name="description" content="Ferramenta que encontra empresas sem site em todo o Brasil e entrega o WhatsApp e a mensagem de abordagem prontos.">
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<header class="topbar">
-  <a href="#inicio" class="logo">
-    <span>LF</span>
-    LeadFinder
-  </a>
+<div class="bg"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span><div class="grid"></div></div>
+<div id="toast" aria-live="polite"></div>
 
-  <nav>
-    <a href="#como-funciona">Como funciona</a>
-    <a href="#ferramenta">Ferramenta</a>
-    <a href="#planos">Planos</a>
-
-    <button id="loginBtn" class="btn ghost">
-      Entrar
-    </button>
-
-    <button id="registerBtn" class="btn primary">
-      Criar conta
-    </button>
-  </nav>
-</header>
-
-
-<main>
-
-<section id="inicio" class="hero">
-
-  <div class="hero-content">
-
-    <span class="eyebrow">
-      PROSPECÇÃO INTELIGENTE
-    </span>
-
-    <h1>
-      Encontre negócios.<br>
-      <span>Encontre oportunidades.</span>
-    </h1>
-
-    <p>
-      Encontre empresas, descubra oportunidades digitais
-      e entre em contato pelo WhatsApp.
-    </p>
-
-    <div class="hero-buttons">
-
-      <button id="startBtn" class="btn primary big">
-        Começar a buscar
-      </button>
-
-      <button id="howBtn" class="btn glass big">
-        Como funciona
-      </button>
-
-    </div>
-
-    <div class="stats">
-
-      <div>
-        <strong>30</strong>
-        <small>créditos grátis</small>
+<!-- ===================== PÁGINA EXPLICATIVA ===================== -->
+<div id="view-landing">
+  <header class="nav">
+    <div class="wrap">
+      <a href="#" class="logo"><i>⚡</i> LeadSites</a>
+      <nav class="nav-links">
+        <a href="#como">Como funciona</a>
+        <a href="#mostra">O que mostra</a>
+        <a href="#onde">Onde busca</a>
+        <a href="#planos">Planos</a>
+        <a href="#faq">Dúvidas</a>
+      </nav>
+      <div class="nav-cta">
+        <button class="btn btn-ghost btn-sm" data-go="login">Entrar</button>
+        <button class="btn btn-primary btn-sm" data-go="register">Criar conta grátis</button>
       </div>
+    </div>
+  </header>
 
+  <section class="hero">
+    <div class="wrap">
       <div>
-        <strong>15</strong>
-        <small>leads no Pro</small>
-      </div>
-
-      <div>
-        <strong>50</strong>
-        <small>leads no Max</small>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="hero-preview">
-
-    <div class="preview-top">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-
-    <div class="preview-search">
-      🔎 Buscar empresas...
-    </div>
-
-    <div class="preview-lead">
-      <div class="avatar">BH</div>
-
-      <div>
-        <strong>Burger House</strong>
-        <small>Hamburgueria • São Paulo</small>
-      </div>
-
-      <b>OPORTUNIDADE</b>
-    </div>
-
-    <div class="preview-lead">
-      <div class="avatar">PB</div>
-
-      <div>
-        <strong>Pizza do Bairro</strong>
-        <small>Pizzaria • São Paulo</small>
-      </div>
-
-      <b>OPORTUNIDADE</b>
-    </div>
-
-    <div class="preview-lead">
-      <div class="avatar">CB</div>
-
-      <div>
-        <strong>Café Brasil</strong>
-        <small>Cafeteria • São Paulo</small>
-      </div>
-
-      <b>OPORTUNIDADE</b>
-    </div>
-
-  </div>
-
-</section>
-
-
-<section id="como-funciona" class="section">
-
-  <div class="section-title">
-
-    <span class="eyebrow">
-      COMO FUNCIONA
-    </span>
-
-    <h2>
-      Da busca ao contato.
-    </h2>
-
-    <p>
-      Encontre oportunidades em poucos passos.
-    </p>
-
-  </div>
-
-  <div class="steps">
-
-    <article>
-      <span>01</span>
-      <h3>Escolha a região</h3>
-      <p>Selecione estado e cidade.</p>
-    </article>
-
-    <article>
-      <span>02</span>
-      <h3>Escolha o negócio</h3>
-      <p>Selecione o segmento desejado.</p>
-    </article>
-
-    <article>
-      <span>03</span>
-      <h3>Faça a busca</h3>
-      <p>Encontre oportunidades.</p>
-    </article>
-
-    <article>
-      <span>04</span>
-      <h3>Entre em contato</h3>
-      <p>Use WhatsApp ou copie a abordagem.</p>
-    </article>
-
-  </div>
-
-</section>
-
-
-<section id="ferramenta" class="section">
-
-  <div class="section-title">
-
-    <span class="eyebrow">
-      LEADFINDER
-    </span>
-
-    <h2>
-      Encontre seus próximos leads.
-    </h2>
-
-  </div>
-
-
-  <div class="tool">
-
-    <aside class="search-box">
-
-      <div class="credits">
-
-        <div>
-          <small>Seus créditos</small>
-          <strong id="creditCount">30</strong>
+        <h1>Ache negócios que precisam de um site e <span class="grad">venda o seu<span class="caret"></span></span></h1>
+        <p class="lead">Escolha o estado, a cidade e o tipo de negócio. Em segundos você recebe uma lista de empresas sem site, com telefone, WhatsApp direto e uma mensagem pronta para copiar.</p>
+        <div class="hero-btns">
+          <button class="btn btn-primary btn-lg" data-go="register">Começar com 30 créditos grátis</button>
+          <a class="btn btn-ghost btn-lg" href="#como">Ver como funciona</a>
         </div>
-
-        <span>
-          6 por busca
-        </span>
-
       </div>
-
-
-      <label>
-        Estado
-
-        <select id="stateSelect">
-          <option value="">
-            Selecione o estado
-          </option>
-        </select>
-
-      </label>
-
-
-      <label>
-        Cidade
-
-        <select id="citySelect" disabled>
-          <option value="">
-            Selecione o estado primeiro
-          </option>
-        </select>
-
-      </label>
-
-
-      <label>
-        Tipo de negócio
-
-        <select id="typeSelect">
-          <option value="">
-            Selecione
-          </option>
-        </select>
-
-      </label>
-
-
-      <label>
-        O que você procura?
-
-        <select id="needSelect">
-          <option value="">
-            Selecione
-          </option>
-        </select>
-
-      </label>
-
-
-      <button id="searchBtn" class="btn primary full">
-        🔎 Buscar leads
-      </button>
-
-    </aside>
-
-
-    <section class="results-box">
-
-      <div class="results-header">
-
-        <div>
-
-          <span class="eyebrow">
-            RESULTADOS
-          </span>
-
-          <h3 id="resultsTitle">
-            Seus leads aparecerão aqui
-          </h3>
-
-        </div>
-
-        <span id="resultCount" class="counter">
-          0 leads
-        </span>
-
+      <div class="mock" aria-hidden="true">
+        <div class="mock-top"><span></span><span></span><span></span></div>
+        <div class="mock-row"><div><b>Hamburgueria Sabor &amp; Cia</b><small>Teresina - PI · 4,7 ★</small></div><span class="tag">Sem site</span></div>
+        <div class="mock-row"><div><b>Barbearia do Bairro</b><small>Parnaíba - PI · 4,5 ★</small></div><span class="tag">Sem site</span></div>
+        <div class="mock-row"><div><b>Pizzaria Bom Gosto</b><small>Picos - PI · 4,8 ★</small></div><span class="tag warn">Design antigo</span></div>
       </div>
-
-
-      <div id="results">
-
-        <div class="empty">
-
-          <div>🔎</div>
-
-          <h3>
-            Faça uma busca
-          </h3>
-
-          <p>
-            Os resultados aparecerão aqui.
-          </p>
-
-        </div>
-
+    </div>
+    <div class="wrap">
+      <div class="stats">
+        <div class="stat rv"><b data-count="27">0</b><span>estados e DF</span></div>
+        <div class="stat rv"><b data-count="5570">0</b><span>cidades para buscar</span></div>
+        <div class="stat rv"><b data-count="30">0</b><span>tipos de negócio</span></div>
+        <div class="stat rv"><b data-count="6">0</b><span>filtros de problema</span></div>
       </div>
-
-    </section>
-
-  </div>
-
-</section>
-
-
-<section class="section">
-
-  <div class="section-title">
-
-    <span class="eyebrow">
-      SERVIÇOS
-    </span>
-
-    <h2>
-      Encontre oportunidades.
-    </h2>
-
-  </div>
-
-  <div id="serviceTags" class="tags"></div>
-
-</section>
-
-
-<section id="planos" class="section">
-
-  <div class="section-title">
-
-    <span class="eyebrow">
-      PLANOS
-    </span>
-
-    <h2>
-      Escolha seu plano.
-    </h2>
-
-  </div>
-
-
-  <div class="plans">
-
-    <article class="plan-card">
-
-      <span>FREE</span>
-
-      <h3>R$ 0</h3>
-
-      <p>Para começar.</p>
-
-      <ul>
-        <li>30 créditos</li>
-        <li>6 leads por busca</li>
-        <li>Abordagem básica</li>
-        <li>WhatsApp</li>
-      </ul>
-
-      <button id="freeBtn" class="btn glass full">
-        Começar grátis
-      </button>
-
-    </article>
-
-
-    <article class="plan-card featured">
-
-      <span>PRO</span>
-
-      <h3>R$ 19,90</h3>
-
-      <p>Para prospectar mais.</p>
-
-      <ul>
-        <li>100 créditos</li>
-        <li>Até 15 leads</li>
-        <li>Abordagem avançada</li>
-        <li>WhatsApp</li>
-      </ul>
-
-      <button id="proBtn" class="btn primary full">
-        Assinar PRO
-      </button>
-
-    </article>
-
-
-    <article class="plan-card">
-
-      <span>MAX</span>
-
-      <h3>R$ 30</h3>
-
-      <p>Para maior volume.</p>
-
-      <ul>
-        <li>Mais créditos</li>
-        <li>Até 50 leads</li>
-        <li>Abordagem avançada</li>
-        <li>WhatsApp</li>
-      </ul>
-
-      <button id="maxBtn" class="btn primary full">
-        Assinar MAX
-      </button>
-
-    </article>
-
-  </div>
-
-</section>
-
-</main>
-
-
-<footer>
-
-  <div class="logo">
-    <span>LF</span>
-    LeadFinder
-  </div>
-
-  <p>
-    Prospecção inteligente.
-  </p>
-
-</footer>
-
-
-<!-- MODAL -->
-
-<div id="authModal" class="modal">
-
-  <div class="modal-content">
-
-    <button id="closeAuth" class="close">
-      ×
-    </button>
-
-    <span id="authEyebrow" class="eyebrow">
-      CRIAR CONTA
-    </span>
-
-    <h2 id="authTitle">
-      Criar conta
-    </h2>
-
-    <p id="authSub">
-      Comece com 30 créditos grátis.
-    </p>
-
-
-    <form id="authForm">
-
-      <label>
-        E-mail
-
-        <input
-          id="email"
-          type="email"
-          placeholder="seuemail@gmail.com"
-          required
-        >
-
-      </label>
-
-
-      <label id="phoneLabel">
-        Celular
-
-        <input
-          id="phone"
-          type="tel"
-          placeholder="(00) 00000-0000"
-        >
-
-      </label>
-
-
-      <label>
-        Senha
-
-        <input
-          id="password"
-          type="password"
-          placeholder="Mínimo 6 caracteres"
-          minlength="6"
-          required
-        >
-
-      </label>
-
-
-      <button
-        type="submit"
-        class="btn primary full"
-      >
-
-        <span id="authSubmitText">
-          Criar conta
-        </span>
-
-      </button>
-
-    </form>
-
-
-    <button id="switchAuth" class="switch">
-      Já tenho uma conta
-    </button>
-
-  </div>
-
+    </div>
+  </section>
+
+  <section id="como">
+    <div class="wrap">
+      <div class="sec-title rv"><h2>Como a ferramenta funciona</h2><p>Quatro passos, do cadastro até a primeira venda.</p></div>
+      <div class="cards steps">
+        <div class="card rv"><h3>Crie sua conta</h3><p>Cadastre nome, Gmail, celular e senha. O plano Free já vem com 30 créditos, sem cartão.</p></div>
+        <div class="card rv"><h3>Escolha onde buscar</h3><p>Selecione o estado, a cidade, o tipo de estabelecimento e o problema que você quer encontrar.</p></div>
+        <div class="card rv"><h3>Clique em buscar</h3><p>Cada busca gasta 6 créditos e devolve a lista de negócios que combinam com seu filtro.</p></div>
+        <div class="card rv"><h3>Chame no WhatsApp</h3><p>Abra a conversa com um clique ou copie a mensagem de abordagem e ofereça o seu site.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="mostra">
+    <div class="wrap">
+      <div class="sec-title rv"><h2>O que aparece em cada resultado</h2><p>Tudo que você precisa para decidir quem abordar primeiro.</p></div>
+      <div class="cards">
+        <div class="card rv"><div class="ico">🏪</div><h3>Nome e categoria</h3><p>O nome do negócio e o tipo de estabelecimento, como hamburgueria, barbearia ou clínica.</p></div>
+        <div class="card rv"><div class="ico">📍</div><h3>Endereço e cidade</h3><p>Rua, bairro, cidade e estado para você conhecer a região do cliente.</p></div>
+        <div class="card rv"><div class="ico">⭐</div><h3>Nota e avaliações</h3><p>Negócios bem avaliados e sem site são as melhores oportunidades de venda.</p></div>
+        <div class="card rv"><div class="ico">🎯</div><h3>Situação do site</h3><p>Uma etiqueta mostra o problema: sem site, design antigo, site lento e outros.</p></div>
+        <div class="card rv"><div class="ico">💬</div><h3>Botão de WhatsApp</h3><p>Abre a conversa direto com o número do negócio e a mensagem já escrita.</p></div>
+        <div class="card rv"><div class="ico">📋</div><h3>Mensagem de abordagem</h3><p>Texto pronto com o nome do lugar. Edite se quiser e copie com um toque.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="onde">
+    <div class="wrap">
+      <div class="sec-title rv"><h2>Busque em qualquer lugar do Brasil</h2><p>Todos os estados, todas as cidades de cada estado e dezenas de segmentos. Você também escolhe o problema que quer encontrar.</p></div>
+      <div class="cards">
+        <div class="card rv"><h3>Problemas que você pode filtrar</h3><p>Sem site · Site desatualizado · Design ruim · Site lento · Sem cardápio ou catálogo online · Sem Google Meu Negócio</p></div>
+        <div class="card rv"><h3>Serviços que você pode oferecer</h3><p>Criação de site · Redesign · Loja virtual · Cardápio digital · Landing page · Google Meu Negócio</p></div>
+      </div>
+      <div class="marquee" aria-hidden="true"><div id="marquee"></div></div>
+    </div>
+  </section>
+
+  <section id="planos">
+    <div class="wrap">
+      <div class="sec-title rv"><h2>Planos e créditos</h2><p>Cada busca custa 6 créditos. Quando os créditos acabam, as buscas ficam bloqueadas até você assinar um plano.</p></div>
+      <div class="plans" id="landing-plans"></div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <div class="sec-title rv"><h2>Dúvidas comuns</h2></div>
+      <div class="faq">
+        <details class="rv"><summary>O que são créditos?</summary><p>É o saldo que você gasta ao buscar. Cada busca custa 6 créditos, seja no Free, no Pro ou no Max.</p></details>
+        <details class="rv"><summary>O que acontece quando os créditos acabam?</summary><p>As buscas são bloqueadas e você vê os planos para escolher o próximo.</p></details>
+        <details class="rv"><summary>Como pago?</summary><p>O pagamento dos planos Pro e Max é feito pela Cakto, com Pix ou cartão.</p></details>
+        <details class="rv"><summary>Qual a diferença entre as mensagens?</summary><p>O Free traz uma abordagem simples. O Pro traz uma mensagem melhorada, e o Max traz a mais completa, com oferta e chamada para ação.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="cta-box rv">
+        <h2>Comece agora com 30 créditos grátis</h2>
+        <p>Faça 5 buscas no plano Free e veja os primeiros clientes em potencial.</p>
+        <button class="btn btn-primary btn-lg" data-go="register">Criar conta grátis</button>
+      </div>
+    </div>
+  </section>
+  <footer><div class="wrap">© <span id="year"></span> LeadSites. Todos os direitos reservados.</div></footer>
 </div>
 
+<!-- ===================== CADASTRO / LOGIN ===================== -->
+<div id="view-auth" class="hidden">
+  <div class="auth">
+    <div class="auth-box">
+      <button class="back" data-go="landing">← Voltar</button>
+      <a class="logo" href="#"><i>⚡</i> LeadSites</a>
+      <div class="tabs" role="tablist">
+        <button id="tab-login" data-tab="login" role="tab">Entrar</button>
+        <button id="tab-register" data-tab="register" role="tab">Criar conta</button>
+      </div>
 
-<div id="toast" class="toast"></div>
+      <form id="form-login" novalidate>
+        <div class="field"><label for="l-email">Gmail</label><input id="l-email" type="email" autocomplete="email" placeholder="voce@gmail.com" required></div>
+        <div class="field"><label for="l-pass">Senha</label><input id="l-pass" type="password" autocomplete="current-password" placeholder="Sua senha" required></div>
+        <div class="err" id="login-err"></div>
+        <button class="btn btn-primary" style="width:100%" type="submit">Entrar</button>
+      </form>
 
+      <form id="form-register" class="hidden" novalidate>
+        <div class="field"><label for="r-name">Nome</label><input id="r-name" autocomplete="name" placeholder="Seu nome" required></div>
+        <div class="field"><label for="r-email">Gmail</label><input id="r-email" type="email" autocomplete="email" placeholder="voce@gmail.com" required></div>
+        <div class="field"><label for="r-phone">Celular</label><input id="r-phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="(86) 99999-9999" required></div>
+        <div class="field"><label for="r-pass">Senha</label><input id="r-pass" type="password" autocomplete="new-password" placeholder="Mínimo de 6 caracteres" required></div>
+        <div class="err" id="register-err"></div>
+        <button class="btn btn-primary" style="width:100%" type="submit">Criar conta e ganhar 30 créditos</button>
+      </form>
+    </div>
+  </div>
+</div>
 
-<script type="module" src="script.js"></script>
+<!-- ===================== PLATAFORMA ===================== -->
+<div id="view-app" class="hidden">
+  <header class="app-bar">
+    <div class="wrap">
+      <a class="logo" href="#"><i>⚡</i> LeadSites</a>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <div class="pill">Plano <b id="planName">Free</b></div>
+        <div class="pill">Créditos <b id="creditsNum">30</b><div class="bar"><i id="creditsBar" style="width:100%"></i></div></div>
+        <button class="btn btn-ghost btn-sm" data-action="plans">Planos</button>
+        <button class="btn btn-ghost btn-sm" data-action="logout">Sair</button>
+      </div>
+    </div>
+  </header>
 
+  <main class="app-main">
+    <div class="wrap">
+      <div id="locked" class="locked hidden">
+        <h2>Seus créditos acabaram</h2>
+        <p>As buscas estão bloqueadas. Escolha um plano para continuar encontrando clientes.</p>
+        <button class="btn btn-primary btn-lg" data-action="plans">Ver planos</button>
+      </div>
+
+      <div class="panel">
+        <h2>Olá, <span id="userName"></span></h2>
+        <p class="sub">Preencha os filtros e clique em buscar.</p>
+        <div id="demoNote" class="demo-note hidden">Modo demonstração: os negócios abaixo são fictícios. Conecte sua API em app.js para buscar dados reais.</div>
+        <div class="form-grid">
+          <div class="field"><label for="uf">Estado</label><select id="uf"></select></div>
+          <div class="field"><label for="city">Cidade</label><select id="city" disabled><option>Escolha o estado primeiro</option></select></div>
+          <div class="field"><label for="segment">Tipo de estabelecimento</label><select id="segment"></select></div>
+          <div class="field"><label for="service">Serviço que você vai oferecer</label><select id="service"></select></div>
+        </div>
+        <div class="field"><label>Problema que você quer encontrar</label><div class="chips" id="issues"></div></div>
+        <div class="search-row">
+          <button class="btn btn-primary btn-lg" id="btnSearch">Buscar leads</button>
+          <small id="searchInfo"></small>
+        </div>
+      </div>
+
+      <div id="results"></div>
+    </div>
+  </main>
+</div>
+
+<!-- ===================== MODAL DE PLANOS ===================== -->
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Planos">
+  <div class="modal-box">
+    <button class="modal-x" data-action="closeModal" aria-label="Fechar">✕</button>
+    <div class="sec-title" style="margin-bottom:28px"><h2>Escolha seu plano</h2><p>Pagamento seguro pela Cakto. Cada busca custa 6 créditos.</p></div>
+    <div class="plans" id="modal-plans"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
 </body>
   </html>
+          
